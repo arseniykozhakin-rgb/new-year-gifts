@@ -3,426 +3,438 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Тёплый список 🎄</title>
-
 <style>
 :root {
-    --green: #174b35;
-    --red: #a83243;
-    --cream: #fffaf1;
-    --gold: #e8bd70;
-    --text: #263b30;
+  --green:#174b35;
+  --red:#a83243;
+  --cream:#fffaf0;
+  --gold:#edc778;
 }
-
-* { box-sizing: border-box; }
-
+* {box-sizing:border-box}
 body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #f5efe5;
-    color: var(--text);
+  margin:0;
+  font-family:Arial,sans-serif;
+  color:#263b30;
+  background:#f7f0e5;
 }
-
 header {
-    background: linear-gradient(135deg, #123d2d, #26704c);
-    color: white;
-    text-align: center;
-    padding: 55px 20px 65px;
-    border-bottom: 5px solid var(--gold);
+  text-align:center;
+  color:white;
+  padding:45px 15px;
+  background:linear-gradient(140deg,#103b2b,#28704d);
+  border-bottom:5px solid var(--gold);
+  position:relative;
+  overflow:hidden;
 }
-
-header .snow {
-    font-size: 28px;
-    letter-spacing: 12px;
-}
-
 header h1 {
-    font-family: Georgia, serif;
-    font-size: clamp(36px, 7vw, 58px);
-    margin: 15px 0 10px;
+  font-family:Georgia,serif;
+  font-size:clamp(36px,7vw,58px);
+  margin:12px 0;
 }
-
-header p {
-    color: #e5eee5;
-    font-size: 17px;
+header p {color:#e4eee5}
+.stickers {
+  font-size:30px;
+  letter-spacing:10px;
 }
-
 main {
-    max-width: 1100px;
-    margin: auto;
-    padding: 30px 20px 60px;
+  max-width:1050px;
+  margin:auto;
+  padding:25px 18px 60px;
 }
-
-.intro {
-    text-align: center;
-    margin: 15px 0 30px;
+h2 {font-family:Georgia,serif}
+.home-title {text-align:center}
+.people {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:16px;
+  margin:28px 0;
 }
-
-.intro h2 {
-    font-family: Georgia, serif;
-    font-size: 30px;
+.person-card {
+  text-decoration:none;
+  color:#244332;
+  background:white;
+  border-radius:18px;
+  padding:25px 12px;
+  text-align:center;
+  box-shadow:0 5px 16px #00000010;
+  border:2px solid transparent;
+  transition:.2s;
 }
-
+.person-card:hover {
+  transform:translateY(-5px);
+  border-color:var(--gold);
+}
+.person-card .emoji {font-size:48px}
+.person-card h3 {margin:10px 0 5px}
+.person-card small {color:#7c897f}
+.back {
+  display:inline-block;
+  margin:8px 0 20px;
+  color:var(--red);
+  text-decoration:none;
+  font-weight:bold;
+}
 .toolbar {
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-    margin-bottom: 25px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin:20px 0;
 }
-
-input, textarea, select {
-    width: 100%;
-    padding: 13px;
-    border: 1px solid #ded5c8;
-    border-radius: 10px;
-    background: white;
-    font: inherit;
+input,textarea {
+  width:100%;
+  padding:13px;
+  border:1px solid #ded6c9;
+  border-radius:10px;
+  font:inherit;
 }
-
-.toolbar input { flex: 1; min-width: 200px; }
-
+.toolbar input {flex:1;min-width:180px}
 button {
-    border: 0;
-    border-radius: 10px;
-    padding: 13px 19px;
-    font-size: 15px;
-    font-weight: bold;
-    cursor: pointer;
+  cursor:pointer;
+  border:0;
+  padding:13px 18px;
+  border-radius:10px;
+  font-weight:bold;
 }
-
-.primary {
-    background: var(--red);
-    color: white;
-}
-
-.primary:hover { background: #872635; }
-
+.primary {background:var(--red);color:white}
 .gift-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-    gap: 22px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:18px;
 }
-
-.gift-card {
-    background: white;
-    border-radius: 17px;
-    overflow: hidden;
-    box-shadow: 0 5px 18px #263b3012;
-    transition: transform .2s, box-shadow .2s;
+.gift {
+  background:white;
+  border-radius:17px;
+  overflow:hidden;
+  box-shadow:0 5px 18px #00000010;
 }
-
-.gift-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 9px 25px #263b3020;
+.gift-image {
+  height:145px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(135deg,#dceadd,#f4e2cb);
+  font-size:65px;
 }
-
-.gift-picture {
-    height: 165px;
-    background: linear-gradient(135deg, #dce9dc, #f3dfc7);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 65px;
+.gift-image img {
+  width:100%;
+  height:100%;
+  object-fit:cover;
 }
-
-.gift-picture img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+.gift-info {padding:17px}
+.gift-info h3 {font-family:Georgia,serif}
+.gift-info p {color:#68746b;line-height:1.5}
+.gift-info a {color:var(--red);font-weight:bold}
+.delete {
+  background:#f5e6e6;
+  color:#923b42;
+  margin-top:12px;
 }
-
-.gift-info { padding: 18px; }
-
-.gift-info h3 {
-    margin: 0 0 9px;
-    font-family: Georgia, serif;
-    font-size: 21px;
-}
-
-.gift-info p {
-    color: #68746b;
-    line-height: 1.5;
-    min-height: 40px;
-}
-
-.person {
-    display: inline-block;
-    background: #edf3eb;
-    color: var(--green);
-    padding: 7px 10px;
-    border-radius: 20px;
-    font-size: 13px;
-    margin-bottom: 12px;
-}
-
-.gift-link {
-    display: inline-block;
-    color: var(--red);
-    font-weight: bold;
-    text-decoration: none;
-    margin-top: 8px;
-}
-
-.gift-link:hover { text-decoration: underline; }
-
 .form-box {
-    background: var(--cream);
-    border: 1px solid #eadfce;
-    border-radius: 18px;
-    padding: 24px;
-    margin: 35px 0;
+  background:var(--cream);
+  padding:22px;
+  margin-top:35px;
+  border-radius:18px;
+  border:1px solid #eadfce;
 }
-
-.form-box h2 {
-    font-family: Georgia, serif;
-    margin-top: 0;
-}
-
-.form-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 13px;
-}
-
-.form-grid .wide { grid-column: 1 / -1; }
-
-label {
-    display: block;
-    font-size: 14px;
-    font-weight: bold;
-    margin-bottom: 7px;
-}
-
-.field { margin-bottom: 13px; }
-
-.empty {
-    text-align: center;
-    padding: 40px 10px;
-    color: #7a847b;
-    grid-column: 1 / -1;
-}
-
-.notice {
-    background: #fff4dc;
-    border-left: 4px solid var(--gold);
-    padding: 13px 16px;
-    border-radius: 8px;
-    color: #66502c;
-    font-size: 14px;
-    line-height: 1.5;
-    margin-top: 25px;
-}
-
+.field {margin:13px 0}
+label {display:block;font-weight:bold;margin-bottom:7px}
+.empty {text-align:center;padding:35px;color:#7b867d}
 footer {
-    background: var(--green);
-    color: white;
-    text-align: center;
-    padding: 25px;
+  text-align:center;
+  background:var(--green);
+  color:white;
+  padding:25px;
 }
-
-@media (max-width: 600px) {
-    .form-grid { grid-template-columns: 1fr; }
-    .form-grid .wide { grid-column: auto; }
-    .toolbar button { width: 100%; }
+.hidden {display:none!important}
+.notice {
+  background:#fff1d5;
+  border-radius:12px;
+  padding:14px;
+  font-size:14px;
+  line-height:1.5;
+  margin-top:25px;
+}
+.snow {
+  position:fixed;
+  top:-30px;
+  z-index:5;
+  pointer-events:none;
+  animation:fall linear forwards;
+}
+@keyframes fall {
+  to {transform:translateY(110vh) rotate(360deg);opacity:.2}
+}
+@media(max-width:550px) {
+  .people {grid-template-columns:1fr 1fr}
 }
 </style>
 </head>
-
 <body>
 
 <header>
-    <div class="snow">❄ ✦ ❄</div>
-    <h1>🎄 Тёплый список</h1>
-    <p>Новогодние желания, собранные с любовью</p>
+  <div class="stickers">❄️ 🎅 🎄 ❄️</div>
+  <h1>🎁 Тёплый список</h1>
+  <p>Самые тёплые желания этой зимы</p>
+  <div class="stickers">🧦 ✨ ⛄ 🎀</div>
 </header>
 
 <main>
-    <section class="intro">
-        <h2>Подарки для всей семьи 🎁</h2>
-        <p>Записывайте свои желания и делитесь праздничным настроением!</p>
-    </section>
+  <section id="home">
+    <div class="home-title">
+      <h2>Наша новогодняя семья ❤️</h2>
+      <p>Выбери свою страницу и добавь подарки в список!</p>
+    </div>
+    <div class="people">
+      <a class="person-card" href="#arseniy">
+        <div class="emoji">🎅</div>
+        <h3>Арсений</h3>
+        <small>Мой список желаний</small>
+      </a>
+      <a class="person-card" href="#matvey">
+        <div class="emoji">🎄</div>
+        <h3>Матвей</h3>
+        <small>Мой список желаний</small>
+      </a>
+      <a class="person-card" href="#anya">
+        <div class="emoji">☃️</div>
+        <h3>Аня</h3>
+        <small>Мой список желаний</small>
+      </a>
+      <a class="person-card" href="#vitaliy">
+        <div class="emoji">🎁</div>
+        <h3>Виталий</h3>
+        <small>Мой список желаний</small>
+      </a>
+    </div>
+  </section>
+
+  <section id="profile" class="hidden">
+    <a class="back" href="#">← На главную</a>
+    <div class="home-title">
+      <div class="stickers" id="profileEmoji">🎄</div>
+      <h2 id="profileTitle">Список желаний</h2>
+      <p>Что хочется получить на Новый год?</p>
+    </div>
 
     <div class="toolbar">
-        <input id="search" type="search" placeholder="🔎 Найти подарок...">
+      <input id="search" placeholder="🔎 Найти подарок...">
     </div>
 
-    <section id="giftGrid" class="gift-grid"></section>
+    <div class="gift-grid" id="giftGrid"></div>
 
-    <section class="form-box">
-        <h2>✨ Добавить желание</h2>
-
-        <form id="giftForm">
-            <div class="form-grid">
-
-                <div class="field">
-                    <label for="giftName">Название подарка *</label>
-                    <input id="giftName" required maxlength="80"
-                           placeholder="Например, настольная игра">
-                </div>
-
-                <div class="field">
-                    <label for="person">Кому подарок? *</label>
-                    <input id="person" required maxlength="50"
-                           placeholder="Например, Маша">
-                </div>
-
-                <div class="field wide">
-                    <label for="description">Описание</label>
-                    <textarea id="description" rows="3" maxlength="300"
-                              placeholder="Какой именно подарок хочется?"></textarea>
-                </div>
-
-                <div class="field">
-                    <label for="giftUrl">Ссылка на магазин</label>
-                    <input id="giftUrl" type="url"
-                           placeholder="https://example.com">
-                </div>
-
-                <div class="field">
-                    <label for="giftImage">Ссылка на картинку</label>
-                    <input id="giftImage" type="url"
-                           placeholder="https://example.com/image.jpg">
-                </div>
-
-                <div class="field wide">
-                    <button class="primary" type="submit">
-                        🎁 Добавить подарок
-                    </button>
-                </div>
-
-            </div>
-        </form>
-    </section>
-
+    <div class="form-box">
+      <h2>✨ Добавить желание</h2>
+      <form id="giftForm">
+        <div class="field">
+          <label for="giftName">Название подарка *</label>
+          <input id="giftName" required maxlength="80"
+                 placeholder="Например, конструктор">
+        </div>
+        <div class="field">
+          <label for="description">Описание</label>
+          <textarea id="description" rows="3"
+                    maxlength="300"
+                    placeholder="Какой именно подарок хочется?"></textarea>
+        </div>
+        <div class="field">
+          <label for="giftUrl">Ссылка на магазин</label>
+          <input id="giftUrl" type="url"
+                 placeholder="https://example.com">
+        </div>
+        <div class="field">
+          <label for="giftImage">Ссылка на фотографию</label>
+          <input id="giftImage" type="url"
+                 placeholder="https://example.com/image.jpg">
+        </div>
+        <button class="primary" type="submit">
+          🎁 Добавить подарок
+        </button>
+      </form>
+    </div>
     <div class="notice">
-        ℹ️ Пока это демонстрационная версия: подарки сохраняются
-        в браузере на этом устройстве. Другие члены семьи их пока
-        не увидят. Общий семейный доступ подключим следующим этапом.
+      ❄️ Это пока первая версия: подарки сохраняются в браузере
+      на устройстве, где их добавили. Для общей семейной работы
+      следующим этапом подключим аккаунты и общую базу данных.
     </div>
+  </section>
 </main>
 
 <footer>
-    Сделано с 🎄 и новогодним настроением
+  🎄 С любовью для нашей семьи 🎄
 </footer>
 
 <script>
-const STORAGE_KEY = "teply-spisok-gifts";
+const people = {
+  arseniy: {name:"Арсений",emoji:"🎅"},
+  matvey: {name:"Матвей",emoji:"🎄"},
+  anya: {name:"Аня",emoji:"☃️"},
+  vitaliy: {name:"Виталий",emoji:"🎁"}
+};
 
-let gifts = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+let currentPerson = "";
+let gifts = [];
 
+const home = document.getElementById("home");
+const profile = document.getElementById("profile");
 const grid = document.getElementById("giftGrid");
 const form = document.getElementById("giftForm");
-const search = document.getElementById("search");
+
+function storageKey() {
+  return "teply-list-" + currentPerson;
+}
+
+function loadGifts() {
+  try {
+    gifts = JSON.parse(localStorage.getItem(storageKey()) || "[]");
+    if (!Array.isArray(gifts)) gifts = [];
+  } catch {
+    gifts = [];
+  }
+}
 
 function saveGifts() {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(gifts));
+  localStorage.setItem(storageKey(), JSON.stringify(gifts));
 }
 
 function safeUrl(value) {
-    try {
-        const url = new URL(value);
-        if (url.protocol === "https:" || url.protocol === "http:") {
-            return url.href;
-        }
-    } catch (error) {}
-    return "";
+  try {
+    const url = new URL(value);
+    if (url.protocol === "https:" || url.protocol === "http:")
+      return url.href;
+  } catch {}
+  return "";
 }
 
-function renderGifts() {
-    grid.innerHTML = "";
+function render() {
+  grid.innerHTML = "";
+  const query = document.getElementById("search").value.toLowerCase();
 
-    const query = search.value.toLowerCase().trim();
+  const filtered = gifts.filter(g =>
+    (g.name + " " + g.description).toLowerCase().includes(query)
+  );
 
-    const filtered = gifts.filter(gift =>
-        (gift.name + " " + gift.person + " " + gift.description)
-        .toLowerCase().includes(query)
-    );
+  if (!filtered.length) {
+    grid.innerHTML = `
+      <div class="empty">
+        <div style="font-size:55px">🎁</div>
+        <h3>Здесь пока нет подарков</h3>
+        <p>Добавь своё первое желание!</p>
+      </div>`;
+    return;
+  }
 
-    if (filtered.length === 0) {
-        grid.innerHTML = `
-            <div class="empty">
-                <div style="font-size:48px">🎁</div>
-                <h3>Пока здесь пусто</h3>
-                <p>Добавьте первое новогоднее желание!</p>
-            </div>`;
-        return;
+  filtered.forEach(g => {
+    const card = document.createElement("article");
+    card.className = "gift";
+
+    const picture = document.createElement("div");
+    picture.className = "gift-image";
+    const imageUrl = safeUrl(g.image || "");
+
+    if (imageUrl) {
+      const img = document.createElement("img");
+      img.src = imageUrl;
+      img.alt = g.name;
+      img.onerror = () => picture.textContent = "🎁";
+      picture.appendChild(img);
+    } else {
+      picture.textContent = "🎁";
     }
 
-    filtered.forEach(gift => {
-        const card = document.createElement("article");
-        card.className = "gift-card";
+    const info = document.createElement("div");
+    info.className = "gift-info";
 
-        const picture = document.createElement("div");
-        picture.className = "gift-picture";
+    const title = document.createElement("h3");
+    title.textContent = g.name;
 
-        const imageUrl = safeUrl(gift.image || "");
+    const description = document.createElement("p");
+    description.textContent = g.description || "Новогоднее желание";
 
-        if (imageUrl) {
-            const img = document.createElement("img");
-            img.src = imageUrl;
-            img.alt = gift.name;
-            img.onerror = () => {
-                picture.innerHTML = "🎁";
-            };
-            picture.appendChild(img);
-        } else {
-            picture.textContent = "🎁";
-        }
+    info.append(title, description);
 
-        const info = document.createElement("div");
-        info.className = "gift-info";
+    const url = safeUrl(g.url || "");
+    if (url) {
+      const link = document.createElement("a");
+      link.href = url;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      link.textContent = "Посмотреть подарок ↗";
+      info.appendChild(link);
+    }
 
-        const title = document.createElement("h3");
-        title.textContent = gift.name;
-
-        const person = document.createElement("span");
-        person.className = "person";
-        person.textContent = "Для: " + gift.person;
-
-        const description = document.createElement("p");
-        description.textContent = gift.description || "Новогоднее желание";
-
-        info.append(title, person, description);
-
-        const linkUrl = safeUrl(gift.url || "");
-        if (linkUrl) {
-            const link = document.createElement("a");
-            link.className = "gift-link";
-            link.href = linkUrl;
-            link.target = "_blank";
-            link.rel = "noopener noreferrer";
-            link.textContent = "Посмотреть подарок ↗";
-            info.appendChild(link);
-        }
-
-        card.append(picture, info);
-        grid.appendChild(card);
+    const remove = document.createElement("button");
+    remove.className = "delete";
+    remove.textContent = "Удалить";
+    remove.addEventListener("click", () => {
+      if (!confirm("Удалить этот подарок?")) return;
+      gifts = gifts.filter(item => item.id !== g.id);
+      saveGifts();
+      render();
     });
+
+    info.appendChild(remove);
+    card.append(picture, info);
+    grid.appendChild(card);
+  });
+}
+
+function navigate() {
+  const key = location.hash.slice(1);
+  if (people[key]) {
+    currentPerson = key;
+    loadGifts();
+    home.classList.add("hidden");
+    profile.classList.remove("hidden");
+    document.getElementById("profileTitle").textContent =
+      "Желания: " + people[key].name;
+    document.getElementById("profileEmoji").textContent =
+      people[key].emoji;
+    document.getElementById("search").value = "";
+    render();
+  } else {
+    currentPerson = "";
+    home.classList.remove("hidden");
+    profile.classList.add("hidden");
+  }
 }
 
 form.addEventListener("submit", event => {
-    event.preventDefault();
+  event.preventDefault();
+  if (!currentPerson) return;
 
-    const gift = {
-        id: Date.now(),
-        name: document.getElementById("giftName").value.trim(),
-        person: document.getElementById("person").value.trim(),
-        description: document.getElementById("description").value.trim(),
-        url: document.getElementById("giftUrl").value.trim(),
-        image: document.getElementById("giftImage").value.trim()
-    };
+  gifts.unshift({
+    id: Date.now(),
+    name: document.getElementById("giftName").value.trim(),
+    description: document.getElementById("description").value.trim(),
+    url: document.getElementById("giftUrl").value.trim(),
+    image: document.getElementById("giftImage").value.trim()
+  });
 
-    gifts.unshift(gift);
-    saveGifts();
-    renderGifts();
-    form.reset();
+  saveGifts();
+  form.reset();
+  render();
 });
 
-search.addEventListener("input", renderGifts);
+document.getElementById("search")
+  .addEventListener("input", render);
 
-renderGifts();
+window.addEventListener("hashchange", navigate);
+navigate();
+
+// Падающие снежинки
+function makeSnow() {
+  const snow = document.createElement("div");
+  snow.className = "snow";
+  snow.textContent = ["❄","❅","✦"][Math.floor(Math.random()*3)];
+  snow.style.left = Math.random()*100 + "vw";
+  snow.style.fontSize = (12 + Math.random()*16) + "px";
+  snow.style.animationDuration = (5 + Math.random()*6) + "s";
+  document.body.appendChild(snow);
+  setTimeout(() => snow.remove(), 12000);
+}
+setInterval(makeSnow, 700);
 </script>
-
 </body>
 </html>
