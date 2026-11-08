@@ -9,13 +9,16 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
     body {
       margin: 0;
       font-family: Arial, sans-serif;
       background: #f7f3ed;
       color: #342d29;
+      overflow-x: hidden;
     }
 
     header {
@@ -23,14 +26,24 @@
       text-align: center;
       background: #315b49;
       color: white;
+      position: relative;
+      z-index: 2;
     }
 
-    header h1 { margin: 0 0 8px; font-size: 30px; }
-    header p { margin: 0; }
+    header h1 {
+      margin: 0 0 8px;
+      font-size: 30px;
+    }
+
+    header p {
+      margin: 0;
+    }
 
     main {
       width: min(900px, 92%);
       margin: 28px auto;
+      position: relative;
+      z-index: 2;
     }
 
     .panel {
@@ -41,7 +54,9 @@
       box-shadow: 0 4px 18px #0000000c;
     }
 
-    h2 { margin-top: 0; }
+    h2 {
+      margin-top: 0;
+    }
 
     input, textarea, button {
       width: 100%;
@@ -56,7 +71,10 @@
       background: #fffefa;
     }
 
-    textarea { min-height: 75px; resize: vertical; }
+    textarea {
+      min-height: 75px;
+      resize: vertical;
+    }
 
     button {
       border: 0;
@@ -66,7 +84,9 @@
       font-weight: bold;
     }
 
-    button:hover { background: #244737; }
+    button:hover {
+      background: #244737;
+    }
 
     button.secondary {
       background: #e9e3da;
@@ -80,7 +100,9 @@
       font-size: 13px;
     }
 
-    .hidden { display: none !important; }
+    .hidden {
+      display: none !important;
+    }
 
     .people {
       display: flex;
@@ -89,7 +111,10 @@
       margin: 15px 0;
     }
 
-    .people button { width: auto; flex: 1 1 130px; }
+    .people button {
+      width: auto;
+      flex: 1 1 130px;
+    }
 
     .gift {
       border: 1px solid #eee5da;
@@ -99,7 +124,9 @@
       background: #fffefa;
     }
 
-    .gift h3 { margin: 0 0 8px; }
+    .gift h3 {
+      margin: 0 0 8px;
+    }
 
     .gift img {
       display: block;
@@ -115,7 +142,9 @@
       overflow-wrap: anywhere;
     }
 
-    .muted { color: #81776e; }
+    .muted {
+      color: #81776e;
+    }
 
     #message {
       padding: 10px 0;
@@ -131,74 +160,380 @@
       flex-wrap: wrap;
     }
 
-    .topline button { width: auto; }
+    .topline button {
+      width: auto;
+    }
+
+
+    /* СНЕЖИНКИ НА ВСЕХ ЭКРАНАХ */
+
+    #snow {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 1000;
+    }
+
+    .snowflake {
+      position: absolute;
+      top: -25px;
+      color: white;
+      opacity: 0.85;
+      text-shadow: 0 0 7px white;
+      animation: snowfall linear infinite;
+      user-select: none;
+    }
+
+    @keyframes snowfall {
+      0% {
+        transform: translateY(-25px) translateX(0) rotate(0deg);
+      }
+
+      100% {
+        transform: translateY(110vh) translateX(45px) rotate(360deg);
+      }
+    }
+
+
+    /* НОЧНАЯ УЛИЦА НА ЭКРАНЕ ВХОДА */
+
+    body.login-mode {
+      background: linear-gradient(
+        180deg,
+        #101a32 0%,
+        #192c49 55%,
+        #344e6d 100%
+      );
+      min-height: 100vh;
+    }
+
+    body.login-mode header {
+      background: transparent;
+      color: #fff;
+    }
+
+    body.login-mode header h1 {
+      text-shadow: 0 0 15px #d8e8ff;
+    }
+
+    body.login-mode #loginPanel {
+      max-width: 430px;
+      margin: 25px auto;
+      background: rgba(255, 255, 255, 0.94);
+      box-shadow: 0 10px 40px #0008;
+    }
+
+    body.login-mode main {
+      padding-bottom: 140px;
+    }
+
+
+    /* ДОМИКИ */
+
+    .winter-scene {
+      display: none;
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    body.login-mode .winter-scene {
+      display: block;
+    }
+
+    .house {
+      position: absolute;
+      bottom: 35px;
+      width: 125px;
+      height: 130px;
+      background: #263247;
+      border: 3px solid #182338;
+      box-shadow: 0 0 25px #101a32;
+    }
+
+    .house::before {
+      content: "";
+      position: absolute;
+      width: 95px;
+      height: 95px;
+      left: 12px;
+      top: -48px;
+      background: #35445c;
+      transform: rotate(45deg);
+      border-top: 4px solid #e8edf5;
+      border-left: 4px solid #e8edf5;
+    }
+
+    .house.left {
+      left: 2%;
+    }
+
+    .house.right {
+      right: 2%;
+      transform: scale(1.15);
+      transform-origin: bottom right;
+    }
+
+    .window {
+      position: absolute;
+      width: 25px;
+      height: 30px;
+      background: #ffd878;
+      top: 35px;
+      left: 20px;
+      box-shadow: 0 0 18px #ffd878;
+      z-index: 2;
+    }
+
+    .window.two {
+      left: 72px;
+    }
+
+    .door {
+      position: absolute;
+      width: 30px;
+      height: 52px;
+      bottom: 0;
+      left: 46px;
+      background: #594333;
+      z-index: 2;
+    }
+
+
+    /* СУГРОБЫ */
+
+    .snowdrift {
+      display: none;
+      position: fixed;
+      bottom: -45px;
+      width: 65%;
+      height: 110px;
+      background: #f4f8ff;
+      border-radius: 50% 50% 0 0;
+      z-index: 1;
+      pointer-events: none;
+      box-shadow: 0 -8px 25px #dce9fa;
+    }
+
+    body.login-mode .snowdrift {
+      display: block;
+    }
+
+    .snowdrift.left {
+      left: -15%;
+    }
+
+    .snowdrift.right {
+      right: -15%;
+      width: 55%;
+    }
+
+
+    /* МОБИЛЬНАЯ ВЕРСИЯ */
+
+    @media (max-width: 600px) {
+      .house {
+        transform: scale(0.65);
+        transform-origin: bottom left;
+      }
+
+      .house.right {
+        transform: scale(0.7);
+        transform-origin: bottom right;
+      }
+
+      body.login-mode main {
+        padding-bottom: 100px;
+      }
+
+      .panel {
+        padding: 17px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .snowflake {
+        animation-duration: 30s !important;
+      }
+    }
   </style>
 </head>
 
-<body>
+<body class="login-mode">
+
+  <!-- СЛОЙ СО СНЕЖИНКАМИ -->
+
+  <div id="snow"></div>
+
+
+  <!-- ЗИМНЯЯ УЛИЦА -->
+
+  <div class="winter-scene">
+
+    <div class="house left">
+      <div class="window"></div>
+      <div class="window two"></div>
+      <div class="door"></div>
+    </div>
+
+    <div class="house right">
+      <div class="window"></div>
+      <div class="window two"></div>
+      <div class="door"></div>
+    </div>
+
+  </div>
+
+  <div class="snowdrift left"></div>
+  <div class="snowdrift right"></div>
+
+
+  <!-- ШАПКА -->
+
   <header>
     <h1>🎄 Тёплый список</h1>
     <p>Семейный список желаний к Новому году</p>
   </header>
 
+
   <main>
+
+    <!-- ЭКРАН ВХОДА -->
+
     <section id="loginPanel" class="panel">
+
       <h2>Вход в семейный список</h2>
-      <p class="muted">Войди со своим email и паролем.</p>
 
-      <input id="email" type="email"
-        placeholder="Твой email" autocomplete="username">
+      <p class="muted">
+        Войди со своим email и паролем.
+      </p>
 
-      <input id="password" type="password"
-        placeholder="Общий пароль" autocomplete="current-password">
+      <input
+        id="email"
+        type="email"
+        placeholder="Твой email"
+        autocomplete="username"
+      >
 
-      <button id="loginButton">Войти</button>
+      <input
+        id="password"
+        type="password"
+        placeholder="Общий пароль"
+        autocomplete="current-password"
+      >
+
+      <button id="loginButton">
+        Войти
+      </button>
+
       <div id="message"></div>
+
     </section>
+
+
+    <!-- ОСНОВНОЙ САЙТ -->
 
     <section id="appPanel" class="hidden">
+
       <div class="panel">
+
         <div class="topline">
+
           <div>
             <h2 id="welcome">Привет!</h2>
-            <p class="muted">Выбери, чей список хочешь посмотреть.</p>
+
+            <p class="muted">
+              Выбери, чей список хочешь посмотреть.
+            </p>
           </div>
-          <button id="logoutButton" class="secondary">Выйти</button>
+
+          <button id="logoutButton" class="secondary">
+            Выйти
+          </button>
+
         </div>
+
+
+        <!-- КНОПКИ ЧЛЕНОВ СЕМЬИ -->
 
         <div class="people">
+
           <button data-person="anya">Аня</button>
+
           <button data-person="arseniy">Арсений</button>
+
           <button data-person="matvey">Матвей</button>
+
           <button data-person="vitaliy">Виталий</button>
+
         </div>
+
       </div>
 
+
+      <!-- СПИСОК ПОДАРКОВ -->
+
       <section class="panel">
+
         <h2 id="listTitle">Список желаний</h2>
+
         <p id="listDescription" class="muted"></p>
+
         <div id="gifts"></div>
+
       </section>
+
+
+      <!-- ДОБАВЛЕНИЕ ЖЕЛАНИЯ -->
 
       <section id="addPanel" class="panel">
+
         <h2>Добавить желание</h2>
-        <p class="muted">Новое желание добавится в твой личный список.</p>
 
-        <input id="giftTitle" placeholder="Название подарка">
-        <textarea id="giftDescription"
-          placeholder="Описание или пожелания"></textarea>
-        <input id="giftUrl" type="url"
-          placeholder="Ссылка на подарок (необязательно)">
-        <input id="giftImage" type="url"
-          placeholder="Ссылка на картинку (необязательно)">
+        <p class="muted">
+          Новое желание добавится в твой личный список.
+        </p>
 
-        <button id="addButton">Добавить в список</button>
+        <input
+          id="giftTitle"
+          placeholder="Название подарка"
+        >
+
+        <textarea
+          id="giftDescription"
+          placeholder="Описание или пожелания"
+        ></textarea>
+
+        <input
+          id="giftUrl"
+          type="url"
+          placeholder="Ссылка на подарок (необязательно)"
+        >
+
+        <input
+          id="giftImage"
+          type="url"
+          placeholder="Ссылка на картинку (необязательно)"
+        >
+
+        <button id="addButton">
+          Добавить в список
+        </button>
+
         <div id="addMessage" class="muted"></div>
+
       </section>
+
     </section>
+
   </main>
 
+
   <script>
+
     // 1. НАСТРОЙКИ SUPABASE
 
     const SUPABASE_URL =
@@ -216,6 +551,7 @@
     // 2. ЧЛЕНЫ СЕМЬИ
 
     const FAMILY = {
+
       "ms.kozhakina@gmail.com": {
         name: "Аня",
         slug: "anya"
@@ -235,6 +571,7 @@
         name: "Виталий",
         slug: "vitaliy"
       }
+
     };
 
 
@@ -244,24 +581,35 @@
     let currentProfile = null;
     let currentListSlug = null;
 
-    const loginPanel = document.getElementById("loginPanel");
-    const appPanel = document.getElementById("appPanel");
-    const message = document.getElementById("message");
-    const giftsContainer = document.getElementById("gifts");
+    const loginPanel =
+      document.getElementById("loginPanel");
+
+    const appPanel =
+      document.getElementById("appPanel");
+
+    const message =
+      document.getElementById("message");
+
+    const giftsContainer =
+      document.getElementById("gifts");
 
 
     // 4. ВХОД
 
     async function login() {
+
       message.textContent = "";
 
-      const email = document.getElementById("email")
-        .value.trim().toLowerCase();
+      const email =
+        document.getElementById("email")
+          .value.trim().toLowerCase();
 
-      const password = document.getElementById("password").value;
+      const password =
+        document.getElementById("password").value;
 
       if (!email || !password) {
-        message.textContent = "Введи email и пароль.";
+        message.textContent =
+          "Введи email и пароль.";
         return;
       }
 
@@ -286,6 +634,8 @@
       currentUser = data.user;
       currentProfile = FAMILY[email];
 
+      document.body.classList.remove("login-mode");
+
       document.getElementById("welcome").textContent =
         "Привет, " + currentProfile.name + "!";
 
@@ -293,12 +643,14 @@
       appPanel.classList.remove("hidden");
 
       await openList(currentProfile.slug);
+
     }
 
 
     // 5. ВЫХОД
 
     async function logout() {
+
       await supabaseClient.auth.signOut();
 
       currentUser = null;
@@ -308,14 +660,19 @@
       appPanel.classList.add("hidden");
       loginPanel.classList.remove("hidden");
 
+      document.body.classList.add("login-mode");
+
       document.getElementById("password").value = "";
+
       message.textContent = "";
+
     }
 
 
     // 6. ОТКРЫТИЕ СПИСКА
 
     async function openList(slug) {
+
       currentListSlug = slug;
 
       const person = Object.values(FAMILY).find(
@@ -332,7 +689,8 @@
           ? "Это твой список. Ты можешь добавлять и удалять свои желания."
           : "Здесь можно посмотреть желания этого члена семьи.";
 
-      const addPanel = document.getElementById("addPanel");
+      const addPanel =
+        document.getElementById("addPanel");
 
       if (slug === currentProfile.slug) {
         addPanel.classList.remove("hidden");
@@ -341,13 +699,16 @@
       }
 
       await loadGifts(slug);
+
     }
 
 
     // 7. ЗАГРУЗКА ПОДАРКОВ
 
     async function loadGifts(slug) {
-      giftsContainer.textContent = "Загружаем список...";
+
+      giftsContainer.textContent =
+        "Загружаем список...";
 
       const { data, error } = await supabaseClient
         .from("gifts")
@@ -364,116 +725,177 @@
       giftsContainer.replaceChildren();
 
       if (!data || data.length === 0) {
-        giftsContainer.textContent = "Пока здесь нет желаний.";
+        giftsContainer.textContent =
+          "Пока здесь нет желаний.";
         return;
       }
 
       data.forEach(gift => {
-        const card = document.createElement("article");
+
+        const card =
+          document.createElement("article");
+
         card.className = "gift";
 
-        const title = document.createElement("h3");
-        title.textContent = gift.title || "Без названия";
+        const title =
+          document.createElement("h3");
+
+        title.textContent =
+          gift.title || "Без названия";
+
         card.appendChild(title);
 
+
         if (gift.description) {
-          const description = document.createElement("p");
-          description.textContent = gift.description;
+
+          const description =
+            document.createElement("p");
+
+          description.textContent =
+            gift.description;
+
           card.appendChild(description);
+
         }
 
+
         if (gift.image_url && safeUrl(gift.image_url)) {
-          const img = document.createElement("img");
+
+          const img =
+            document.createElement("img");
+
           img.src = gift.image_url;
           img.alt = gift.title || "Подарок";
           img.loading = "lazy";
+
           card.appendChild(img);
+
         }
 
+
         if (gift.url && safeUrl(gift.url)) {
-          const link = document.createElement("a");
+
+          const link =
+            document.createElement("a");
+
           link.href = gift.url;
           link.target = "_blank";
           link.rel = "noopener noreferrer";
-          link.textContent = "Открыть ссылку на подарок";
+          link.textContent =
+            "Открыть ссылку на подарок";
+
           card.appendChild(link);
+
         }
 
+
         if (gift.owner_id === currentUser.id) {
-          const deleteButton = document.createElement("button");
+
+          const deleteButton =
+            document.createElement("button");
+
           deleteButton.className = "delete";
           deleteButton.textContent = "Удалить";
+
           deleteButton.addEventListener(
-            "click", () => deleteGift(gift.id)
+            "click",
+            () => deleteGift(gift.id)
           );
+
           card.appendChild(deleteButton);
+
         }
 
         giftsContainer.appendChild(card);
+
       });
+
     }
 
 
     // 8. ПРОВЕРКА ССЫЛОК
 
     function safeUrl(value) {
+
       try {
+
         const url = new URL(value);
+
         return url.protocol === "https:" ||
           url.protocol === "http:";
+
       } catch {
+
         return false;
+
       }
+
     }
 
 
     // 9. ДОБАВЛЕНИЕ ПОДАРКА
 
     async function addGift() {
+
       const title =
-        document.getElementById("giftTitle").value.trim();
+        document.getElementById("giftTitle")
+          .value.trim();
 
       const description =
-        document.getElementById("giftDescription").value.trim();
+        document.getElementById("giftDescription")
+          .value.trim();
 
       const url =
-        document.getElementById("giftUrl").value.trim();
+        document.getElementById("giftUrl")
+          .value.trim();
 
       const imageUrl =
-        document.getElementById("giftImage").value.trim();
+        document.getElementById("giftImage")
+          .value.trim();
 
-      const addMessage = document.getElementById("addMessage");
+      const addMessage =
+        document.getElementById("addMessage");
+
       addMessage.textContent = "";
 
       if (!title) {
-        addMessage.textContent = "Напиши название подарка.";
+        addMessage.textContent =
+          "Напиши название подарка.";
         return;
       }
 
       if (url && !safeUrl(url)) {
-        addMessage.textContent = "Проверь ссылку на подарок.";
+        addMessage.textContent =
+          "Проверь ссылку на подарок.";
         return;
       }
 
       if (imageUrl && !safeUrl(imageUrl)) {
-        addMessage.textContent = "Проверь ссылку на картинку.";
+        addMessage.textContent =
+          "Проверь ссылку на картинку.";
         return;
       }
 
       const { error } = await supabaseClient
         .from("gifts")
         .insert({
+
           owner_id: currentUser.id,
           owner_slug: currentProfile.slug,
           title: title,
           description: description,
           url: url || null,
           image_url: imageUrl || null
+
         });
 
       if (error) {
-        addMessage.textContent = "Ошибка: " + error.message;
+
+        addMessage.textContent =
+          "Ошибка: " + error.message;
+
         return;
+
       }
 
       document.getElementById("giftTitle").value = "";
@@ -481,14 +903,18 @@
       document.getElementById("giftUrl").value = "";
       document.getElementById("giftImage").value = "";
 
-      addMessage.textContent = "Желание добавлено!";
+      addMessage.textContent =
+        "Желание добавлено!";
+
       await loadGifts(currentProfile.slug);
+
     }
 
 
     // 10. УДАЛЕНИЕ ПОДАРКА
 
     async function deleteGift(id) {
+
       const confirmed =
         confirm("Удалить это желание из списка?");
 
@@ -501,11 +927,17 @@
         .eq("owner_id", currentUser.id);
 
       if (error) {
-        alert("Не удалось удалить: " + error.message);
+
+        alert(
+          "Не удалось удалить: " + error.message
+        );
+
         return;
+
       }
 
       await loadGifts(currentListSlug);
+
     }
 
 
@@ -520,17 +952,25 @@
     document.getElementById("addButton")
       .addEventListener("click", addGift);
 
-    document.querySelectorAll("[data-person]").forEach(button => {
-      button.addEventListener("click", () => {
-        openList(button.dataset.person);
+    document.querySelectorAll("[data-person]")
+      .forEach(button => {
+
+        button.addEventListener("click", () => {
+
+          openList(button.dataset.person);
+
+        });
+
       });
-    });
 
 
     // 12. ПРОВЕРКА СОХРАНЁННОГО ВХОДА
 
     async function checkSession() {
-      const { data } = await supabaseClient.auth.getSession();
+
+      const { data } =
+        await supabaseClient.auth.getSession();
+
       const user = data.session?.user;
 
       if (!user) return;
@@ -538,12 +978,17 @@
       const email = user.email?.toLowerCase();
 
       if (!FAMILY[email]) {
+
         await supabaseClient.auth.signOut();
+
         return;
+
       }
 
       currentUser = user;
       currentProfile = FAMILY[email];
+
+      document.body.classList.remove("login-mode");
 
       document.getElementById("welcome").textContent =
         "Привет, " + currentProfile.name + "!";
@@ -552,9 +997,42 @@
       appPanel.classList.remove("hidden");
 
       await openList(currentProfile.slug);
+
     }
 
     checkSession();
+
+
+    // 13. ПАДАЮЩИЕ СНЕЖИНКИ
+
+    const snow =
+      document.getElementById("snow");
+
+    for (let i = 0; i < 75; i++) {
+
+      const flake =
+        document.createElement("div");
+
+      flake.className = "snowflake";
+      flake.textContent = "❄";
+
+      flake.style.left =
+        Math.random() * 100 + "%";
+
+      flake.style.fontSize =
+        (8 + Math.random() * 15) + "px";
+
+      flake.style.animationDuration =
+        (6 + Math.random() * 12) + "s";
+
+      flake.style.animationDelay =
+        (-Math.random() * 15) + "s";
+
+      snow.appendChild(flake);
+
+    }
+
   </script>
+
 </body>
 </html>
