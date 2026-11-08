@@ -25,11 +25,7 @@
       color: white;
     }
 
-    header h1 {
-      margin: 0 0 8px;
-      font-size: 30px;
-    }
-
+    header h1 { margin: 0 0 8px; font-size: 30px; }
     header p { margin: 0; }
 
     main {
@@ -60,10 +56,7 @@
       background: #fffefa;
     }
 
-    textarea {
-      min-height: 75px;
-      resize: vertical;
-    }
+    textarea { min-height: 75px; resize: vertical; }
 
     button {
       border: 0;
@@ -96,10 +89,7 @@
       margin: 15px 0;
     }
 
-    .people button {
-      width: auto;
-      flex: 1 1 130px;
-    }
+    .people button { width: auto; flex: 1 1 130px; }
 
     .gift {
       border: 1px solid #eee5da;
@@ -156,19 +146,11 @@
       <h2>Вход в семейный список</h2>
       <p class="muted">Войди со своим email и паролем.</p>
 
-      <input
-        id="email"
-        type="email"
-        placeholder="Твой email"
-        autocomplete="username"
-      >
+      <input id="email" type="email"
+        placeholder="Твой email" autocomplete="username">
 
-      <input
-        id="password"
-        type="password"
-        placeholder="Общий пароль"
-        autocomplete="current-password"
-      >
+      <input id="password" type="password"
+        placeholder="Общий пароль" autocomplete="current-password">
 
       <button id="loginButton">Войти</button>
       <div id="message"></div>
@@ -203,9 +185,12 @@
         <p class="muted">Новое желание добавится в твой личный список.</p>
 
         <input id="giftTitle" placeholder="Название подарка">
-        <textarea id="giftDescription" placeholder="Описание или пожелания"></textarea>
-        <input id="giftUrl" type="url" placeholder="Ссылка на подарок (необязательно)">
-        <input id="giftImage" type="url" placeholder="Ссылка на картинку (необязательно)">
+        <textarea id="giftDescription"
+          placeholder="Описание или пожелания"></textarea>
+        <input id="giftUrl" type="url"
+          placeholder="Ссылка на подарок (необязательно)">
+        <input id="giftImage" type="url"
+          placeholder="Ссылка на картинку (необязательно)">
 
         <button id="addButton">Добавить в список</button>
         <div id="addMessage" class="muted"></div>
@@ -216,12 +201,11 @@
   <script>
     // 1. НАСТРОЙКИ SUPABASE
 
-    const SUPABASE_URL = "https://coghijubvxwnsmaozlgc.supabase.co";
+    const SUPABASE_URL =
+      "https://coghijubvxwnsmaozlgc.supabase.co";
 
-    // Вставь сюда свой Publishable key из Supabase.
-    // Не вставляй сюда Secret key.
-
-    const SUPABASE_KEY = "ВСТАВЬ_СЮДА_СВОЙ_PUBLISHABLE_KEY";
+    const SUPABASE_KEY =
+      "sb_publishable_A8HcaBhXIOhHCmq-akDlyA_Amv4IF2q";
 
     const supabaseClient = window.supabase.createClient(
       SUPABASE_URL,
@@ -271,9 +255,8 @@
     async function login() {
       message.textContent = "";
 
-      const email = document.getElementById("email").value
-        .trim()
-        .toLowerCase();
+      const email = document.getElementById("email")
+        .value.trim().toLowerCase();
 
       const password = document.getElementById("password").value;
 
@@ -283,17 +266,20 @@
       }
 
       if (!FAMILY[email]) {
-        message.textContent = "Этот email не добавлен в семейный список.";
+        message.textContent =
+          "Этот email не добавлен в семейный список.";
         return;
       }
 
-      const { data, error } = await supabaseClient.auth.signInWithPassword({
-        email,
-        password
-      });
+      const { data, error } =
+        await supabaseClient.auth.signInWithPassword({
+          email,
+          password
+        });
 
       if (error) {
-        message.textContent = "Не удалось войти: " + error.message;
+        message.textContent =
+          "Не удалось войти: " + error.message;
         return;
       }
 
@@ -306,7 +292,7 @@
       loginPanel.classList.add("hidden");
       appPanel.classList.remove("hidden");
 
-      openList(currentProfile.slug);
+      await openList(currentProfile.slug);
     }
 
 
@@ -417,7 +403,9 @@
           const deleteButton = document.createElement("button");
           deleteButton.className = "delete";
           deleteButton.textContent = "Удалить";
-          deleteButton.addEventListener("click", () => deleteGift(gift.id));
+          deleteButton.addEventListener(
+            "click", () => deleteGift(gift.id)
+          );
           card.appendChild(deleteButton);
         }
 
@@ -431,7 +419,8 @@
     function safeUrl(value) {
       try {
         const url = new URL(value);
-        return url.protocol === "https:" || url.protocol === "http:";
+        return url.protocol === "https:" ||
+          url.protocol === "http:";
       } catch {
         return false;
       }
@@ -441,12 +430,19 @@
     // 9. ДОБАВЛЕНИЕ ПОДАРКА
 
     async function addGift() {
-      const title = document.getElementById("giftTitle").value.trim();
-      const description = document.getElementById("giftDescription").value.trim();
-      const url = document.getElementById("giftUrl").value.trim();
-      const imageUrl = document.getElementById("giftImage").value.trim();
-      const addMessage = document.getElementById("addMessage");
+      const title =
+        document.getElementById("giftTitle").value.trim();
 
+      const description =
+        document.getElementById("giftDescription").value.trim();
+
+      const url =
+        document.getElementById("giftUrl").value.trim();
+
+      const imageUrl =
+        document.getElementById("giftImage").value.trim();
+
+      const addMessage = document.getElementById("addMessage");
       addMessage.textContent = "";
 
       if (!title) {
@@ -493,7 +489,9 @@
     // 10. УДАЛЕНИЕ ПОДАРКА
 
     async function deleteGift(id) {
-      const confirmed = confirm("Удалить это желание из списка?");
+      const confirmed =
+        confirm("Удалить это желание из списка?");
+
       if (!confirmed) return;
 
       const { error } = await supabaseClient
