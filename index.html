@@ -76,19 +76,12 @@ body.login-mode {
   overflow: hidden;
   background:
     radial-gradient(ellipse at 78% 18%, rgba(83,117,157,.35), transparent 35%),
-    linear-gradient(
-      to bottom,
-      #071326 0%,
-      #142943 48%,
-      #314c68 100%
-    );
+    linear-gradient(to bottom, #071326 0%, #142943 48%, #314c68 100%);
 }
 
 body.login-mode .login-city {
   display: block;
 }
-
-/* Звёзды */
 
 .city-stars {
   position: absolute;
@@ -103,8 +96,6 @@ body.login-mode .login-city {
     radial-gradient(1px 1px at 92% 13%, #fff, transparent);
 }
 
-/* Луна */
-
 .moon {
   position: absolute;
   top: 8%;
@@ -118,8 +109,6 @@ body.login-mode .login-city {
     0 0 65px rgba(255,242,201,.2);
 }
 
-/* Дальний силуэт города */
-
 .skyline-back {
   position: absolute;
   bottom: 100px;
@@ -127,8 +116,7 @@ body.login-mode .login-city {
   width: 100%;
   height: 35%;
   opacity: .55;
-  background:
-    linear-gradient(to top, #172b43 0 70%, transparent 70%);
+  background: linear-gradient(to top, #172b43 0 70%, transparent 70%);
 }
 
 .skyline-back::before {
@@ -148,8 +136,6 @@ body.login-mode .login-city {
     linear-gradient(to top, #203951 0 80%, transparent 80%) 88% 0 / 12% 100%;
 }
 
-/* Основные здания */
-
 .building {
   position: absolute;
   bottom: 85px;
@@ -157,8 +143,6 @@ body.login-mode .login-city {
   border: 1px solid rgba(180,205,230,.12);
   box-shadow: 8px 0 25px rgba(0,0,0,.18);
 }
-
-/* Крыши */
 
 .building::before {
   content: "";
@@ -172,67 +156,22 @@ body.login-mode .login-city {
   box-shadow: 0 -4px 0 #e4edf5;
 }
 
-/* Окна */
-
 .building::after {
   content: "";
   position: absolute;
   inset: 25px 13px 10px;
   background-image:
-    repeating-linear-gradient(
-      90deg,
-      transparent 0 13px,
-      rgba(255,210,112,.95) 13px 21px,
-      transparent 21px 34px
-    ),
-    repeating-linear-gradient(
-      0deg,
-      transparent 0 22px,
-      rgba(255,218,135,.9) 22px 32px,
-      transparent 32px 48px
-    );
+    repeating-linear-gradient(90deg, transparent 0 13px, rgba(255,210,112,.95) 13px 21px, transparent 21px 34px),
+    repeating-linear-gradient(0deg, transparent 0 22px, rgba(255,218,135,.9) 22px 32px, transparent 32px 48px);
   opacity: .8;
 }
 
-/* Разные дома */
-
-.building-a {
-  left: 1%;
-  width: 13%;
-  height: 230px;
-}
-
-.building-b {
-  left: 14%;
-  width: 12%;
-  height: 330px;
-}
-
-.building-c {
-  left: 27%;
-  width: 15%;
-  height: 270px;
-}
-
-.building-d {
-  right: 28%;
-  width: 13%;
-  height: 350px;
-}
-
-.building-e {
-  right: 14%;
-  width: 14%;
-  height: 245px;
-}
-
-.building-f {
-  right: 0;
-  width: 14%;
-  height: 300px;
-}
-
-/* Центральная башня */
+.building-a { left: 1%; width: 13%; height: 230px; }
+.building-b { left: 14%; width: 12%; height: 330px; }
+.building-c { left: 27%; width: 15%; height: 270px; }
+.building-d { right: 28%; width: 13%; height: 350px; }
+.building-e { right: 14%; width: 14%; height: 245px; }
+.building-f { right: 0; width: 14%; height: 300px; }
 
 .tower {
   position: absolute;
@@ -260,22 +199,10 @@ body.login-mode .login-city {
   position: absolute;
   inset: 25px 14px;
   background:
-    repeating-linear-gradient(
-      90deg,
-      transparent 0 13px,
-      #ffd77d 13px 21px,
-      transparent 21px 32px
-    ),
-    repeating-linear-gradient(
-      0deg,
-      transparent 0 23px,
-      #ffd77d 23px 32px,
-      transparent 32px 45px
-    );
+    repeating-linear-gradient(90deg, transparent 0 13px, #ffd77d 13px 21px, transparent 21px 32px),
+    repeating-linear-gradient(0deg, transparent 0 23px, #ffd77d 23px 32px, transparent 32px 45px);
   opacity: .85;
 }
-
-/* Небольшие дома перед зданиями */
 
 .house {
   position: absolute;
@@ -307,22 +234,11 @@ body.login-mode .login-city {
   width: 25px;
   height: 30px;
   background: #ffd77a;
-  box-shadow:
-    65px 0 #ffd77a,
-    0 45px #ffd77a,
-    65px 45px #ffd77a;
+  box-shadow: 65px 0 #ffd77a, 0 45px #ffd77a, 65px 45px #ffd77a;
 }
 
-.house-left {
-  left: 10%;
-}
-
-.house-right {
-  right: 9%;
-  transform: scale(1.12);
-}
-
-/* Фонари */
+.house-left { left: 10%; }
+.house-right { right: 9%; transform: scale(1.12); }
 
 .street-lamp {
   position: absolute;
@@ -346,16 +262,8 @@ body.login-mode .login-city {
   box-shadow: 0 0 22px 8px rgba(255,219,130,.5);
 }
 
-.street-lamp.one {
-  left: 30%;
-}
-
-.street-lamp.two {
-  right: 31%;
-  transform: scale(.9);
-}
-
-/* Земля и снежные сугробы */
+.street-lamp.one { left: 30%; }
+.street-lamp.two { right: 31%; transform: scale(.9); }
 
 .city-ground {
   position: absolute;
@@ -540,7 +448,7 @@ main {
 }
 
 /* =================================
-   КАРТОЧКИ И ЛЕДЕНЦЫ
+   ПАНЕЛИ И ЛЕДЕНЦЫ
 ================================= */
 
 .panel {
@@ -551,9 +459,6 @@ main {
   background: rgba(255,255,255,.96);
   box-shadow: 0 7px 25px rgba(48,77,108,.1);
 }
-
-/* Леденцы лежат на верхнем краю.
-   Половина снаружи, половина внутри карточки. */
 
 .candy {
   position: absolute;
@@ -662,33 +567,202 @@ main {
 }
 
 /* =================================
-   КАРТОЧКИ ПОДАРКОВ
+   НОВОГОДНИЕ КАРТОЧКИ ПОДАРКОВ
 ================================= */
 
 .gift-list {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
+  gap: 24px;
+  padding: 10px 5px;
 }
 
 .gift-card {
-  overflow: hidden;
-  border: 1px solid #e1eaf3;
-  border-radius: 16px;
+  position: relative;
+  overflow: visible;
+  isolation: isolate;
+  padding: 13px;
+  border: 3px solid #c99b45;
+  border-radius: 19px;
   background: white;
-  box-shadow: 0 4px 14px rgba(40,65,90,.08);
+  box-shadow: 0 5px 18px rgba(40,65,90,.13);
 }
 
+/* Внутренняя золотая линия */
+
+.gift-card::before {
+  content: "";
+  position: absolute;
+  inset: 5px;
+  border: 1px solid #e7cf9b;
+  border-radius: 12px;
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* Слой праздничных украшений */
+
+.gift-frame {
+  position: absolute;
+  inset: -3px;
+  z-index: 5;
+  pointer-events: none;
+  overflow: hidden;
+  border-radius: 17px;
+}
+
+/* Еловые ветки по углам */
+
+.frame-corner {
+  position: absolute;
+  width: 105px;
+  height: 95px;
+  background:
+    repeating-conic-gradient(
+      from 235deg at 0% 100%,
+      transparent 0deg 5deg,
+      #155b32 5deg 8deg,
+      #287c42 8deg 11deg,
+      transparent 11deg 15deg
+    );
+  filter: drop-shadow(1px 2px 1px rgba(0,0,0,.2));
+}
+
+.frame-top-left {
+  top: 0;
+  left: 0;
+}
+
+.frame-top-right {
+  top: 0;
+  right: 0;
+  transform: scaleX(-1);
+}
+
+.frame-bottom-left {
+  bottom: 0;
+  left: 0;
+  transform: scaleY(-1);
+}
+
+.frame-bottom-right {
+  bottom: 0;
+  right: 0;
+  transform: scale(-1);
+}
+
+/* Золотые шарики */
+
+.frame-ball {
+  position: absolute;
+  width: 23px;
+  height: 23px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 30% 25%,
+    #fff5bd,
+    #e9b943 35%,
+    #a96b18 75%,
+    #70420c
+  );
+  box-shadow: 0 2px 5px rgba(0,0,0,.25);
+}
+
+.frame-ball.one {
+  top: 20px;
+  left: 75px;
+}
+
+.frame-ball.two {
+  top: 20px;
+  right: 75px;
+}
+
+.frame-ball.three {
+  bottom: 20px;
+  left: 75px;
+}
+
+.frame-ball.four {
+  bottom: 20px;
+  right: 75px;
+}
+
+/* Звёздочки */
+
+.frame-star {
+  position: absolute;
+  color: #d9a63e;
+  font-size: 27px;
+  line-height: 1;
+  text-shadow: 1px 2px 2px rgba(100,65,15,.3);
+}
+
+.frame-star.one {
+  top: 5px;
+  left: 42%;
+}
+
+.frame-star.two {
+  bottom: 5px;
+  right: 42%;
+}
+
+/* Пряничные украшения */
+
+.frame-cookie {
+  position: absolute;
+  width: 28px;
+  height: 35px;
+  border: 3px solid #d7a45a;
+  border-radius: 8px 8px 11px 11px;
+  background: #a96b2e;
+  box-shadow:
+    inset 0 0 0 2px #f6d99d,
+    1px 2px 4px rgba(0,0,0,.2);
+}
+
+.frame-cookie::after {
+  content: "•";
+  position: absolute;
+  top: 3px;
+  left: 7px;
+  color: white;
+  font-size: 15px;
+  text-shadow: 7px 0 white;
+}
+
+.frame-cookie.one {
+  top: 5px;
+  right: 12px;
+  transform: rotate(25deg);
+}
+
+.frame-cookie.two {
+  bottom: 5px;
+  left: 12px;
+  transform: rotate(-25deg);
+}
+
+/* Фото подарка */
+
 .gift-card img {
+  position: relative;
+  z-index: 1;
   display: block;
   width: 100%;
   height: 190px;
   object-fit: cover;
   background: #eaf1f8;
+  border-radius: 9px;
 }
 
+/* Текст карточки */
+
 .gift-card-content {
-  padding: 17px;
+  position: relative;
+  z-index: 2;
+  padding: 17px 10px 12px;
 }
 
 .gift-card h3 {
@@ -744,7 +818,7 @@ main {
 }
 
 /* =================================
-   СУГРОБЫ НА ОСНОВНОМ САЙТЕ
+   СУГРОБЫ
 ================================= */
 
 .snowdrift {
@@ -759,9 +833,7 @@ main {
   pointer-events: none;
 }
 
-.snowdrift.left {
-  left: -110px;
-}
+.snowdrift.left { left: -110px; }
 
 .snowdrift.right {
   right: -110px;
@@ -784,6 +856,7 @@ main {
 
   .gift-list {
     grid-template-columns: 1fr;
+    gap: 22px;
   }
 
   .panel {
@@ -831,15 +904,27 @@ main {
     width: 65px;
     height: 22px;
   }
+
+  .frame-corner {
+    width: 85px;
+    height: 78px;
+  }
+
+  .frame-ball {
+    width: 19px;
+    height: 19px;
+  }
+
+  .frame-star {
+    font-size: 22px;
+  }
 }
 </style>
 </head>
 
 <body class="login-mode">
 
-<!-- =================================
-     НОЧНОЙ ГОРОД
-================================= -->
+<!-- НОЧНОЙ ГОРОД -->
 
 <div class="login-city">
   <div class="city-stars"></div>
@@ -869,9 +954,7 @@ main {
 
 <div id="snow"></div>
 
-<!-- =================================
-     ЭКРАН ВХОДА
-================================= -->
+<!-- ЭКРАН ВХОДА -->
 
 <section id="loginScreen" class="login-content">
   <div class="login-card">
@@ -906,9 +989,7 @@ main {
   </div>
 </section>
 
-<!-- =================================
-     ОСНОВНОЙ САЙТ
-================================= -->
+<!-- ОСНОВНОЙ САЙТ -->
 
 <div id="app">
 
@@ -940,6 +1021,7 @@ main {
       <p>Выбери, чей список подарков хочешь посмотреть:</p>
 
       <div class="family-buttons">
+
         <button class="family-button active"
           onclick="selectFamily('anya')" id="family-anya">
           🌷 Аня
@@ -959,6 +1041,7 @@ main {
           onclick="selectFamily('vitaliy')" id="family-vitaliy">
           🎅 Виталий
         </button>
+
       </div>
     </section>
 
@@ -973,6 +1056,7 @@ main {
       <p>Запиши подарок, который хочется получить.</p>
 
       <form id="giftForm" class="gift-form">
+
         <input
           id="giftTitle"
           type="text"
@@ -1002,6 +1086,7 @@ main {
         <button class="add-button" type="submit">
           🎁 Добавить в список
         </button>
+
       </form>
 
       <div class="status-message" id="giftMessage"></div>
@@ -1090,6 +1175,7 @@ function createSnow() {
     flake.textContent = "❄";
 
     flake.style.left = Math.random() * 100 + "%";
+
     flake.style.fontSize =
       (8 + Math.random() * 15) + "px";
 
@@ -1295,12 +1381,39 @@ async function loadGifts() {
 }
 
 /* =================================
-   СОЗДАНИЕ КАРТОЧКИ ПОДАРКА
+   СОЗДАНИЕ НОВОГОДНЕЙ КАРТОЧКИ
 ================================= */
 
 function createGiftCard(gift) {
   const card = document.createElement("article");
   card.className = "gift-card";
+
+  // Праздничная рамка
+
+  const frame = document.createElement("div");
+  frame.className = "gift-frame";
+
+  frame.innerHTML = `
+    <span class="frame-corner frame-top-left"></span>
+    <span class="frame-corner frame-top-right"></span>
+    <span class="frame-corner frame-bottom-left"></span>
+    <span class="frame-corner frame-bottom-right"></span>
+
+    <span class="frame-ball one"></span>
+    <span class="frame-ball two"></span>
+    <span class="frame-ball three"></span>
+    <span class="frame-ball four"></span>
+
+    <span class="frame-star one">★</span>
+    <span class="frame-star two">★</span>
+
+    <span class="frame-cookie one"></span>
+    <span class="frame-cookie two"></span>
+  `;
+
+  card.appendChild(frame);
+
+  // Фотография
 
   if (gift.image_url) {
     const image = document.createElement("img");
@@ -1316,6 +1429,8 @@ function createGiftCard(gift) {
     card.appendChild(image);
   }
 
+  // Содержимое
+
   const content = document.createElement("div");
   content.className = "gift-card-content";
 
@@ -1329,6 +1444,8 @@ function createGiftCard(gift) {
     description.textContent = gift.description;
     content.appendChild(description);
   }
+
+  // Ссылка на подарок
 
   if (gift.url) {
     try {
@@ -1352,6 +1469,8 @@ function createGiftCard(gift) {
       console.warn("Некорректная ссылка:", gift.url);
     }
   }
+
+  // Кнопка удаления только для владельца
 
   const isOwner =
     currentSession &&
