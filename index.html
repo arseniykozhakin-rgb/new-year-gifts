@@ -5,919 +5,208 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Тёплый список — новогодние желания</title>
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-* {
-  box-sizing: border-box;
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;font-family:Arial,sans-serif;color:#263b52;background:#eaf2fa;overflow-x:hidden}
+button,input,textarea{font:inherit}
+button{cursor:pointer}
+
+/* СНЕГ */
+#snow{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:1000}
+.snowflake{position:absolute;top:-30px;color:white;opacity:.9;text-shadow:0 0 5px #b9d7f0;animation:snowfall linear infinite}
+@keyframes snowfall{to{transform:translate3d(35px,110vh,0) rotate(360deg)}}
+
+/* НОЧНОЙ ГОРОД */
+body.login-mode{background:#101e35}
+.login-city{display:none;position:fixed;inset:0;z-index:0;overflow:hidden;background:radial-gradient(ellipse at 78% 18%,rgba(83,117,157,.35),transparent 35%),linear-gradient(to bottom,#071326,#142943 48%,#314c68)}
+body.login-mode .login-city{display:block}
+.city-stars{position:absolute;inset:0;opacity:.7;background-image:radial-gradient(2px 2px at 10% 20%,#fff,transparent),radial-gradient(1px 1px at 25% 12%,#fff,transparent),radial-gradient(2px 2px at 43% 25%,#dceaff,transparent),radial-gradient(1px 1px at 60% 10%,#fff,transparent),radial-gradient(2px 2px at 85% 28%,#fff,transparent),radial-gradient(1px 1px at 92% 13%,#fff,transparent)}
+.moon{position:absolute;top:8%;right:15%;width:85px;height:85px;border-radius:50%;background:#fff2c9;box-shadow:0 0 20px rgba(255,242,201,.5),0 0 65px rgba(255,242,201,.2)}
+.skyline-back{position:absolute;bottom:100px;left:0;width:100%;height:35%;opacity:.55;background:linear-gradient(to top,#172b43 0 70%,transparent 70%)}
+.skyline-back:before{content:"";position:absolute;inset:0;background:linear-gradient(to top,#1a3049 0 75%,transparent 75%) 0 0/9% 100%,linear-gradient(to top,#203a55 0 90%,transparent 90%) 9% 0/10% 100%,linear-gradient(to top,#172c45 0 60%,transparent 60%) 19% 0/8% 100%,linear-gradient(to top,#213a54 0 82%,transparent 82%) 27% 0/12% 100%,linear-gradient(to top,#192e47 0 68%,transparent 68%) 39% 0/9% 100%,linear-gradient(to top,#203952 0 95%,transparent 95%) 48% 0/10% 100%,linear-gradient(to top,#172c44 0 70%,transparent 70%) 58% 0/9% 100%,linear-gradient(to top,#203951 0 85%,transparent 85%) 67% 0/11% 100%,linear-gradient(to top,#172b43 0 65%,transparent 65%) 78% 0/10% 100%,linear-gradient(to top,#203951 0 80%,transparent 80%) 88% 0/12% 100%}
+.building{position:absolute;bottom:85px;background:linear-gradient(90deg,#172a42,#29425d 50%,#172a42);border:1px solid rgba(180,205,230,.12);box-shadow:8px 0 25px rgba(0,0,0,.18)}
+.building:before{content:"";position:absolute;left:-5px;right:-5px;top:-13px;height:14px;background:#40566c;border-radius:2px 2px 0 0;box-shadow:0 -4px 0 #e4edf5}
+.building:after{content:"";position:absolute;inset:25px 13px;background-image:repeating-linear-gradient(90deg,transparent 0 13px,rgba(255,210,112,.95) 13px 21px,transparent 21px 34px),repeating-linear-gradient(0deg,transparent 0 22px,rgba(255,218,135,.9) 22px 32px,transparent 32px 48px);opacity:.8}
+.building-a{left:1%;width:13%;height:230px}.building-b{left:14%;width:12%;height:330px}.building-c{left:27%;width:15%;height:270px}.building-d{right:28%;width:13%;height:350px}.building-e{right:14%;width:14%;height:245px}.building-f{right:0;width:14%;height:300px}
+.tower{position:absolute;bottom:85px;left:46%;width:12%;height:390px;background:linear-gradient(90deg,#182c45,#2d4864,#182c45);border:1px solid rgba(255,255,255,.1)}
+.tower:before{content:"";position:absolute;top:-55px;left:20%;width:60%;height:55px;background:#354e68;clip-path:polygon(50% 0,100% 100%,0 100%)}
+.tower:after{content:"";position:absolute;inset:25px 14px;background:repeating-linear-gradient(90deg,transparent 0 13px,#ffd77d 13px 21px,transparent 21px 32px),repeating-linear-gradient(0deg,transparent 0 23px,#ffd77d 23px 32px,transparent 32px 45px);opacity:.85}
+.house{position:absolute;bottom:80px;width:150px;height:125px;background:linear-gradient(90deg,#253d57,#3a5570,#253d57);border-radius:3px 3px 0 0;box-shadow:0 0 20px rgba(0,0,0,.2)}
+.house:before{content:"";position:absolute;top:-58px;left:-18px;width:186px;height:65px;background:#4a6076;clip-path:polygon(50% 0,100% 100%,0 100%);border-bottom:5px solid #e6eef5}
+.house:after{content:"";position:absolute;top:35px;left:25px;width:25px;height:30px;background:#ffd77a;box-shadow:65px 0 #ffd77a,0 45px #ffd77a,65px 45px #ffd77a}
+.house-left{left:10%}.house-right{right:9%;transform:scale(1.12)}
+.street-lamp{position:absolute;bottom:75px;width:7px;height:145px;background:#172638;border-radius:5px;z-index:3}
+.street-lamp:before{content:"";position:absolute;top:-12px;left:-9px;width:25px;height:20px;border-radius:8px 8px 3px 3px;background:#ffe6a0;box-shadow:0 0 22px 8px rgba(255,219,130,.5)}
+.street-lamp.one{left:30%}.street-lamp.two{right:31%;transform:scale(.9)}
+.city-ground{position:absolute;bottom:0;left:-5%;width:110%;height:115px;background:linear-gradient(to bottom,#f8fbff,#d9e7f3);border-radius:50% 50% 0 0/20% 20% 0 0}
+.city-ground:before{content:"";position:absolute;left:0;top:-35px;width:100%;height:65px;background:#f8fbff;border-radius:50%}
+.city-ground:after{content:"";position:absolute;left:10%;top:12px;width:35%;height:30px;background:#fff;border-radius:50%;filter:blur(5px)}
+
+/* ВХОД */
+.login-content{position:relative;z-index:5;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:25px}
+.login-card{width:100%;max-width:420px;padding:35px 30px;text-align:center;border-radius:24px;background:rgba(255,255,255,.95);box-shadow:0 15px 55px rgba(0,0,0,.35);backdrop-filter:blur(8px)}
+.login-card h1{margin:0 0 10px;color:#243d5a;font-size:30px}
+.login-card p{color:#71849a;line-height:1.5}
+.login-card input{display:block;width:100%;margin-top:13px;padding:14px;border:1px solid #d1dce8;border-radius:11px;outline:none}
+.login-card input:focus{border-color:#638db7;box-shadow:0 0 0 3px rgba(99,141,183,.15)}
+.main-button{width:100%;margin-top:18px;padding:14px;border:0;border-radius:11px;background:#355d86;color:white;font-weight:bold;transition:.2s}
+.main-button:hover{background:#24486e;transform:translateY(-2px)}
+#loginMessage{min-height:20px;color:#b33b3b;font-size:14px}
+
+/* ОСНОВНОЙ САЙТ */
+body.app-mode{background:linear-gradient(180deg,#dceafa,#f4f8fc)}
+#app{display:none;position:relative;z-index:2;min-height:100vh;padding-bottom:70px}
+body.app-mode #app{display:block}
+header{position:relative;z-index:3;padding:26px 20px;text-align:center;color:white;background:linear-gradient(120deg,#243f61,#41698e);box-shadow:0 4px 15px rgba(20,45,75,.2)}
+header h1{margin:0;font-size:32px}
+header p{margin:8px 0 0;color:#e3edf8}
+.top-bar{max-width:1000px;margin:18px auto;padding:0 15px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.user-label{color:#344e6c;font-weight:bold}
+.logout-button{padding:10px 16px;border:0;border-radius:10px;background:#dce7f2;color:#344e6c;font-weight:bold}
+.logout-button:hover{background:#c8d9eb}
+main{max-width:1000px;margin:0 auto;padding:0 15px}
+
+/* ПАНЕЛИ */
+.panel{position:relative;margin:28px 0;padding:30px 25px 25px;border-radius:20px;background:rgba(255,255,255,.96);box-shadow:0 7px 25px rgba(48,77,108,.1)}
+.candy{position:absolute;top:-12px;width:76px;height:25px;border-radius:18px;z-index:5;border:3px solid white;background:repeating-linear-gradient(45deg,#c92837 0 8px,#fff 8px 15px,#21834b 15px 22px,#fff 22px 29px);box-shadow:0 3px 8px rgba(0,0,0,.2)}
+.candy.left{left:20px;transform:rotate(-18deg)}.candy.right{right:20px;transform:rotate(18deg)}
+.panel h2{margin-top:0;color:#2e4d6d}
+
+/* СЕМЕЙНЫЕ КНОПКИ */
+.family-buttons{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.family-button{padding:17px 10px;border:2px solid #dce7f2;border-radius:14px;background:#f5f9fd;color:#355675;font-weight:bold;transition:.2s}
+.family-button:hover{background:#e3eef9;transform:translateY(-2px)}
+.family-button.active{border-color:#547fa8;background:#dceafa;color:#23496e}
+
+/* ДОБАВЛЕНИЕ */
+.gift-form{display:grid;gap:12px}
+.gift-form input,.gift-form textarea{width:100%;padding:13px;border:1px solid #d0dce9;border-radius:11px;outline:none;background:#fbfdff}
+.gift-form textarea{min-height:85px;resize:vertical}
+.gift-form input:focus,.gift-form textarea:focus{border-color:#7398bd}
+.add-button{padding:14px;border:0;border-radius:11px;color:white;background:#477a68;font-weight:bold}
+.add-button:hover{background:#356653}
+
+/* КАРТОЧКИ */
+.gift-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;padding:10px 5px}
+.gift-card{
+  position:relative;
+  isolation:isolate;
+  padding:16px;
+  border:3px solid #c99b45;
+  border-radius:20px;
+  background:#fff;
+  box-shadow:0 5px 18px rgba(40,65,90,.13);
+  overflow:visible;
 }
 
-body {
-  margin: 0;
-  min-height: 100vh;
-  font-family: Arial, sans-serif;
-  color: #263b52;
-  background: #eaf2fa;
-  overflow-x: hidden;
+/* ВНУТРЕННЯЯ ЛИНИЯ */
+.gift-card:before{
+  content:"";
+  position:absolute;
+  inset:5px;
+  border:1px solid #e7cf9b;
+  border-radius:12px;
+  pointer-events:none;
+  z-index:0;
 }
 
-button, input, textarea {
-  font: inherit;
+/* НОВАЯ РАМКА: ДЕКОРАТИВНЫЕ УГОЛКИ */
+.gift-frame{
+  position:absolute;
+  inset:-3px;
+  z-index:3;
+  pointer-events:none;
+  border-radius:19px;
+  overflow:hidden;
 }
 
-button {
-  cursor: pointer;
-}
-
-/* =================================
-   СНЕГ
-================================= */
-
-#snow {
-  position: fixed;
-  inset: 0;
-  overflow: hidden;
-  pointer-events: none;
-  z-index: 1000;
-}
-
-.snowflake {
-  position: absolute;
-  top: -30px;
-  color: white;
-  opacity: .9;
-  text-shadow: 0 0 5px #b9d7f0;
-  animation: snowfall linear infinite;
-}
-
-@keyframes snowfall {
-  0% {
-    transform: translate3d(0, -30px, 0) rotate(0deg);
-  }
-  100% {
-    transform: translate3d(35px, 110vh, 0) rotate(360deg);
-  }
-}
-
-/* =================================
-   ГОРОД НА ЭКРАНЕ ВХОДА
-================================= */
-
-body.login-mode {
-  background: #101e35;
-}
-
-.login-city {
-  display: none;
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  overflow: hidden;
+/* ЕЛОВЫЕ ВЕТОЧКИ */
+.frame-corner{
+  position:absolute;
+  width:75px;
+  height:75px;
   background:
-    radial-gradient(ellipse at 78% 18%, rgba(83,117,157,.35), transparent 35%),
-    linear-gradient(to bottom, #071326 0%, #142943 48%, #314c68 100%);
-}
-
-body.login-mode .login-city {
-  display: block;
-}
-
-.city-stars {
-  position: absolute;
-  inset: 0;
-  opacity: .7;
-  background-image:
-    radial-gradient(2px 2px at 10% 20%, #fff, transparent),
-    radial-gradient(1px 1px at 25% 12%, #fff, transparent),
-    radial-gradient(2px 2px at 43% 25%, #dceaff, transparent),
-    radial-gradient(1px 1px at 60% 10%, #fff, transparent),
-    radial-gradient(2px 2px at 85% 28%, #fff, transparent),
-    radial-gradient(1px 1px at 92% 13%, #fff, transparent);
-}
-
-.moon {
-  position: absolute;
-  top: 8%;
-  right: 15%;
-  width: 85px;
-  height: 85px;
-  border-radius: 50%;
-  background: #fff2c9;
-  box-shadow:
-    0 0 20px rgba(255,242,201,.5),
-    0 0 65px rgba(255,242,201,.2);
-}
-
-.skyline-back {
-  position: absolute;
-  bottom: 100px;
-  left: 0;
-  width: 100%;
-  height: 35%;
-  opacity: .55;
-  background: linear-gradient(to top, #172b43 0 70%, transparent 70%);
-}
-
-.skyline-back::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(to top, #1a3049 0 75%, transparent 75%) 0 0 / 9% 100%,
-    linear-gradient(to top, #203a55 0 90%, transparent 90%) 9% 0 / 10% 100%,
-    linear-gradient(to top, #172c45 0 60%, transparent 60%) 19% 0 / 8% 100%,
-    linear-gradient(to top, #213a54 0 82%, transparent 82%) 27% 0 / 12% 100%,
-    linear-gradient(to top, #192e47 0 68%, transparent 68%) 39% 0 / 9% 100%,
-    linear-gradient(to top, #203952 0 95%, transparent 95%) 48% 0 / 10% 100%,
-    linear-gradient(to top, #172c44 0 70%, transparent 70%) 58% 0 / 9% 100%,
-    linear-gradient(to top, #203951 0 85%, transparent 85%) 67% 0 / 11% 100%,
-    linear-gradient(to top, #172b43 0 65%, transparent 65%) 78% 0 / 10% 100%,
-    linear-gradient(to top, #203951 0 80%, transparent 80%) 88% 0 / 12% 100%;
-}
-
-.building {
-  position: absolute;
-  bottom: 85px;
-  background: linear-gradient(90deg, #172a42, #29425d 50%, #172a42);
-  border: 1px solid rgba(180,205,230,.12);
-  box-shadow: 8px 0 25px rgba(0,0,0,.18);
-}
-
-.building::before {
-  content: "";
-  position: absolute;
-  left: -5px;
-  right: -5px;
-  top: -13px;
-  height: 14px;
-  background: #40566c;
-  border-radius: 2px 2px 0 0;
-  box-shadow: 0 -4px 0 #e4edf5;
-}
-
-.building::after {
-  content: "";
-  position: absolute;
-  inset: 25px 13px 10px;
-  background-image:
-    repeating-linear-gradient(90deg, transparent 0 13px, rgba(255,210,112,.95) 13px 21px, transparent 21px 34px),
-    repeating-linear-gradient(0deg, transparent 0 22px, rgba(255,218,135,.9) 22px 32px, transparent 32px 48px);
-  opacity: .8;
-}
-
-.building-a { left: 1%; width: 13%; height: 230px; }
-.building-b { left: 14%; width: 12%; height: 330px; }
-.building-c { left: 27%; width: 15%; height: 270px; }
-.building-d { right: 28%; width: 13%; height: 350px; }
-.building-e { right: 14%; width: 14%; height: 245px; }
-.building-f { right: 0; width: 14%; height: 300px; }
-
-.tower {
-  position: absolute;
-  bottom: 85px;
-  left: 46%;
-  width: 12%;
-  height: 390px;
-  background: linear-gradient(90deg, #182c45, #2d4864, #182c45);
-  border: 1px solid rgba(255,255,255,.1);
-}
-
-.tower::before {
-  content: "";
-  position: absolute;
-  top: -55px;
-  left: 20%;
-  width: 60%;
-  height: 55px;
-  background: #354e68;
-  clip-path: polygon(50% 0, 100% 100%, 0 100%);
-}
-
-.tower::after {
-  content: "";
-  position: absolute;
-  inset: 25px 14px;
-  background:
-    repeating-linear-gradient(90deg, transparent 0 13px, #ffd77d 13px 21px, transparent 21px 32px),
-    repeating-linear-gradient(0deg, transparent 0 23px, #ffd77d 23px 32px, transparent 32px 45px);
-  opacity: .85;
-}
-
-.house {
-  position: absolute;
-  bottom: 80px;
-  width: 150px;
-  height: 125px;
-  background: linear-gradient(90deg, #253d57, #3a5570, #253d57);
-  border-radius: 3px 3px 0 0;
-  box-shadow: 0 0 20px rgba(0,0,0,.2);
-}
-
-.house::before {
-  content: "";
-  position: absolute;
-  top: -58px;
-  left: -18px;
-  width: 186px;
-  height: 65px;
-  background: #4a6076;
-  clip-path: polygon(50% 0, 100% 100%, 0 100%);
-  border-bottom: 5px solid #e6eef5;
-}
-
-.house::after {
-  content: "";
-  position: absolute;
-  top: 35px;
-  left: 25px;
-  width: 25px;
-  height: 30px;
-  background: #ffd77a;
-  box-shadow: 65px 0 #ffd77a, 0 45px #ffd77a, 65px 45px #ffd77a;
-}
-
-.house-left { left: 10%; }
-.house-right { right: 9%; transform: scale(1.12); }
-
-.street-lamp {
-  position: absolute;
-  bottom: 75px;
-  width: 7px;
-  height: 145px;
-  background: #172638;
-  border-radius: 5px;
-  z-index: 3;
-}
-
-.street-lamp::before {
-  content: "";
-  position: absolute;
-  top: -12px;
-  left: -9px;
-  width: 25px;
-  height: 20px;
-  border-radius: 8px 8px 3px 3px;
-  background: #ffe6a0;
-  box-shadow: 0 0 22px 8px rgba(255,219,130,.5);
-}
-
-.street-lamp.one { left: 30%; }
-.street-lamp.two { right: 31%; transform: scale(.9); }
-
-.city-ground {
-  position: absolute;
-  bottom: 0;
-  left: -5%;
-  width: 110%;
-  height: 115px;
-  background: linear-gradient(to bottom, #f8fbff, #d9e7f3);
-  border-radius: 50% 50% 0 0 / 20% 20% 0 0;
-}
-
-.city-ground::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: -35px;
-  width: 100%;
-  height: 65px;
-  background: #f8fbff;
-  border-radius: 50%;
-}
-
-.city-ground::after {
-  content: "";
-  position: absolute;
-  left: 10%;
-  top: 12px;
-  width: 35%;
-  height: 30px;
-  background: #fff;
-  border-radius: 50%;
-  filter: blur(5px);
-}
-
-/* =================================
-   ЭКРАН ВХОДА
-================================= */
-
-.login-content {
-  position: relative;
-  z-index: 5;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 25px;
-}
-
-.login-card {
-  width: 100%;
-  max-width: 420px;
-  padding: 35px 30px;
-  text-align: center;
-  border-radius: 24px;
-  background: rgba(255,255,255,.95);
-  box-shadow: 0 15px 55px rgba(0,0,0,.35);
-  backdrop-filter: blur(8px);
-}
-
-.login-card h1 {
-  margin: 0 0 10px;
-  color: #243d5a;
-  font-size: 30px;
-}
-
-.login-card p {
-  color: #71849a;
-  line-height: 1.5;
-}
-
-.login-card input {
-  display: block;
-  width: 100%;
-  margin-top: 13px;
-  padding: 14px;
-  border: 1px solid #d1dce8;
-  border-radius: 11px;
-  outline: none;
-}
-
-.login-card input:focus {
-  border-color: #638db7;
-  box-shadow: 0 0 0 3px rgba(99,141,183,.15);
-}
-
-.main-button {
-  width: 100%;
-  margin-top: 18px;
-  padding: 14px;
-  border: none;
-  border-radius: 11px;
-  background: #355d86;
-  color: white;
-  font-weight: bold;
-  transition: .2s;
-}
-
-.main-button:hover {
-  background: #24486e;
-  transform: translateY(-2px);
-}
-
-#loginMessage {
-  min-height: 20px;
-  color: #b33b3b;
-  font-size: 14px;
-}
-
-/* =================================
-   ОСНОВНОЙ САЙТ
-================================= */
-
-body.app-mode {
-  background: linear-gradient(180deg, #dceafa, #f4f8fc);
-}
-
-#app {
-  display: none;
-  position: relative;
-  z-index: 2;
-  min-height: 100vh;
-  padding-bottom: 70px;
-}
-
-body.app-mode #app {
-  display: block;
-}
-
-header {
-  position: relative;
-  z-index: 3;
-  padding: 26px 20px;
-  text-align: center;
-  color: white;
-  background: linear-gradient(120deg, #243f61, #41698e);
-  box-shadow: 0 4px 15px rgba(20,45,75,.2);
-}
-
-header h1 {
-  margin: 0;
-  font-size: 32px;
-}
-
-header p {
-  margin: 8px 0 0;
-  color: #e3edf8;
-}
-
-.top-bar {
-  max-width: 1000px;
-  margin: 18px auto;
-  padding: 0 15px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.user-label {
-  color: #344e6c;
-  font-weight: bold;
-}
-
-.logout-button {
-  padding: 10px 16px;
-  border: none;
-  border-radius: 10px;
-  background: #dce7f2;
-  color: #344e6c;
-  font-weight: bold;
-}
-
-.logout-button:hover {
-  background: #c8d9eb;
-}
-
-main {
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 0 15px;
-}
-
-/* =================================
-   ПАНЕЛИ И ЛЕДЕНЦЫ
-================================= */
-
-.panel {
-  position: relative;
-  margin: 28px 0;
-  padding: 30px 25px 25px;
-  border-radius: 20px;
-  background: rgba(255,255,255,.96);
-  box-shadow: 0 7px 25px rgba(48,77,108,.1);
-}
-
-.candy {
-  position: absolute;
-  top: -12px;
-  width: 76px;
-  height: 25px;
-  border-radius: 18px;
-  z-index: 5;
-  border: 3px solid white;
-  background: repeating-linear-gradient(
-    45deg,
-    #c92837 0 8px,
-    #fff 8px 15px,
-    #21834b 15px 22px,
-    #fff 22px 29px
-  );
-  box-shadow: 0 3px 8px rgba(0,0,0,.2);
-}
-
-.candy.left {
-  left: 20px;
-  transform: rotate(-18deg);
-}
-
-.candy.right {
-  right: 20px;
-  transform: rotate(18deg);
-}
-
-.panel h2 {
-  margin-top: 0;
-  color: #2e4d6d;
-}
-
-/* =================================
-   ВЫБОР ЧЛЕНА СЕМЬИ
-================================= */
-
-.family-buttons {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
-}
-
-.family-button {
-  padding: 17px 10px;
-  border: 2px solid #dce7f2;
-  border-radius: 14px;
-  background: #f5f9fd;
-  color: #355675;
-  font-weight: bold;
-  transition: .2s;
-}
-
-.family-button:hover {
-  background: #e3eef9;
-  transform: translateY(-2px);
-}
-
-.family-button.active {
-  border-color: #547fa8;
-  background: #dceafa;
-  color: #23496e;
-}
-
-/* =================================
-   ФОРМА ДОБАВЛЕНИЯ
-================================= */
-
-.gift-form {
-  display: grid;
-  gap: 12px;
-}
-
-.gift-form input,
-.gift-form textarea {
-  width: 100%;
-  padding: 13px;
-  border: 1px solid #d0dce9;
-  border-radius: 11px;
-  outline: none;
-  background: #fbfdff;
-}
-
-.gift-form textarea {
-  min-height: 85px;
-  resize: vertical;
-}
-
-.gift-form input:focus,
-.gift-form textarea:focus {
-  border-color: #7398bd;
-}
-
-.add-button {
-  padding: 14px;
-  border: none;
-  border-radius: 11px;
-  color: white;
-  background: #477a68;
-  font-weight: bold;
-}
-
-.add-button:hover {
-  background: #356653;
-}
-
-/* =================================
-   НОВОГОДНИЕ КАРТОЧКИ ПОДАРКОВ
-================================= */
-
-.gift-list {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 24px;
-  padding: 10px 5px;
-}
-
-.gift-card {
-  position: relative;
-  overflow: visible;
-  isolation: isolate;
-  padding: 13px;
-  border: 3px solid #c99b45;
-  border-radius: 19px;
-  background: white;
-  box-shadow: 0 5px 18px rgba(40,65,90,.13);
-}
-
-/* Внутренняя золотая линия */
-
-.gift-card::before {
-  content: "";
-  position: absolute;
-  inset: 5px;
-  border: 1px solid #e7cf9b;
-  border-radius: 12px;
-  pointer-events: none;
-  z-index: 3;
-}
-
-/* Слой праздничных украшений */
-
-.gift-frame {
-  position: absolute;
-  inset: -3px;
-  z-index: 5;
-  pointer-events: none;
-  overflow: hidden;
-  border-radius: 17px;
-}
-
-/* Еловые ветки по углам */
-
-.frame-corner {
-  position: absolute;
-  width: 105px;
-  height: 95px;
-  background:
-    repeating-conic-gradient(
-      from 235deg at 0% 100%,
+    repeating-conic-gradient(from 225deg at 0% 100%,
       transparent 0deg 5deg,
       #155b32 5deg 8deg,
       #287c42 8deg 11deg,
-      transparent 11deg 15deg
-    );
-  filter: drop-shadow(1px 2px 1px rgba(0,0,0,.2));
+      transparent 11deg 15deg);
+  filter:drop-shadow(1px 2px 1px rgba(0,0,0,.2));
 }
+.frame-top-left{top:0;left:0}
+.frame-top-right{top:0;right:0;transform:scaleX(-1)}
+.frame-bottom-left{bottom:0;left:0;transform:scaleY(-1)}
+.frame-bottom-right{bottom:0;right:0;transform:scale(-1)}
 
-.frame-top-left {
-  top: 0;
-  left: 0;
+/* ШАРИКИ */
+.frame-ball{
+  position:absolute;
+  width:17px;
+  height:17px;
+  border-radius:50%;
+  background:radial-gradient(circle at 30% 25%,#fff5bd,#e9b943 35%,#a96b18 75%,#70420c);
+  box-shadow:0 2px 5px rgba(0,0,0,.25);
 }
+.frame-ball.one{top:12px;left:65px}
+.frame-ball.two{top:12px;right:65px;background:radial-gradient(circle at 30% 25%,#ffe0e0,#df5353 40%,#a51d2d)}
+.frame-ball.three{bottom:12px;left:65px;background:radial-gradient(circle at 30% 25%,#ffe0e0,#df5353 40%,#a51d2d)}
+.frame-ball.four{bottom:12px;right:65px}
 
-.frame-top-right {
-  top: 0;
-  right: 0;
-  transform: scaleX(-1);
+/* ЗВЁЗДЫ */
+.frame-star{position:absolute;color:#d9a63e;font-size:19px;line-height:1;text-shadow:1px 2px 2px rgba(100,65,15,.3)}
+.frame-star.one{top:8px;left:43%}
+.frame-star.two{bottom:8px;right:43%}
+
+/* КАРТОЧКА: ФОТО И ТЕКСТ */
+.gift-card img{
+  position:relative;
+  z-index:1;
+  display:block;
+  width:100%;
+  height:190px;
+  object-fit:cover;
+  background:#eaf1f8;
+  border-radius:9px;
 }
+.gift-card-content{position:relative;z-index:1;padding:17px 10px 12px}
+.gift-card h3{margin:0 0 9px;color:#2f4d6b}
+.gift-card p{color:#687d92;line-height:1.5;white-space:pre-wrap}
+.gift-link{display:inline-block;margin-top:8px;color:#376f9f;font-weight:bold;text-decoration:none}
+.gift-link:hover{text-decoration:underline}
+.delete-button{display:block;margin-top:14px;padding:9px 13px;border:0;border-radius:9px;background:#f8e4e4;color:#a43b3b;font-weight:bold}
+.delete-button:hover{background:#f2d0d0}
+.empty-message{padding:20px;text-align:center;color:#7b8fa4;background:#f5f9fd;border-radius:12px}
+.status-message{margin-top:12px;color:#a43b3b;font-size:14px}
 
-.frame-bottom-left {
-  bottom: 0;
-  left: 0;
-  transform: scaleY(-1);
-}
+/* СУГРОБЫ */
+.snowdrift{position:fixed;bottom:-35px;width:300px;height:100px;border-radius:50%;background:#fff;box-shadow:0 -8px 20px rgba(255,255,255,.5);z-index:1;pointer-events:none}
+.snowdrift.left{left:-110px}
+.snowdrift.right{right:-110px;width:360px;height:120px}
 
-.frame-bottom-right {
-  bottom: 0;
-  right: 0;
-  transform: scale(-1);
-}
-
-/* Золотые шарики */
-
-.frame-ball {
-  position: absolute;
-  width: 23px;
-  height: 23px;
-  border-radius: 50%;
-  background: radial-gradient(
-    circle at 30% 25%,
-    #fff5bd,
-    #e9b943 35%,
-    #a96b18 75%,
-    #70420c
-  );
-  box-shadow: 0 2px 5px rgba(0,0,0,.25);
-}
-
-.frame-ball.one {
-  top: 20px;
-  left: 75px;
-}
-
-.frame-ball.two {
-  top: 20px;
-  right: 75px;
-}
-
-.frame-ball.three {
-  bottom: 20px;
-  left: 75px;
-}
-
-.frame-ball.four {
-  bottom: 20px;
-  right: 75px;
-}
-
-/* Звёздочки */
-
-.frame-star {
-  position: absolute;
-  color: #d9a63e;
-  font-size: 27px;
-  line-height: 1;
-  text-shadow: 1px 2px 2px rgba(100,65,15,.3);
-}
-
-.frame-star.one {
-  top: 5px;
-  left: 42%;
-}
-
-.frame-star.two {
-  bottom: 5px;
-  right: 42%;
-}
-
-/* Пряничные украшения */
-
-.frame-cookie {
-  position: absolute;
-  width: 28px;
-  height: 35px;
-  border: 3px solid #d7a45a;
-  border-radius: 8px 8px 11px 11px;
-  background: #a96b2e;
-  box-shadow:
-    inset 0 0 0 2px #f6d99d,
-    1px 2px 4px rgba(0,0,0,.2);
-}
-
-.frame-cookie::after {
-  content: "•";
-  position: absolute;
-  top: 3px;
-  left: 7px;
-  color: white;
-  font-size: 15px;
-  text-shadow: 7px 0 white;
-}
-
-.frame-cookie.one {
-  top: 5px;
-  right: 12px;
-  transform: rotate(25deg);
-}
-
-.frame-cookie.two {
-  bottom: 5px;
-  left: 12px;
-  transform: rotate(-25deg);
-}
-
-/* Фото подарка */
-
-.gift-card img {
-  position: relative;
-  z-index: 1;
-  display: block;
-  width: 100%;
-  height: 190px;
-  object-fit: cover;
-  background: #eaf1f8;
-  border-radius: 9px;
-}
-
-/* Текст карточки */
-
-.gift-card-content {
-  position: relative;
-  z-index: 2;
-  padding: 17px 10px 12px;
-}
-
-.gift-card h3 {
-  margin: 0 0 9px;
-  color: #2f4d6b;
-}
-
-.gift-card p {
-  color: #687d92;
-  line-height: 1.5;
-  white-space: pre-wrap;
-}
-
-.gift-link {
-  display: inline-block;
-  margin-top: 8px;
-  color: #376f9f;
-  font-weight: bold;
-  text-decoration: none;
-}
-
-.gift-link:hover {
-  text-decoration: underline;
-}
-
-.delete-button {
-  display: block;
-  margin-top: 14px;
-  padding: 9px 13px;
-  border: none;
-  border-radius: 9px;
-  background: #f8e4e4;
-  color: #a43b3b;
-  font-weight: bold;
-}
-
-.delete-button:hover {
-  background: #f2d0d0;
-}
-
-.empty-message {
-  padding: 20px;
-  text-align: center;
-  color: #7b8fa4;
-  background: #f5f9fd;
-  border-radius: 12px;
-}
-
-.status-message {
-  margin-top: 12px;
-  color: #a43b3b;
-  font-size: 14px;
-}
-
-/* =================================
-   СУГРОБЫ
-================================= */
-
-.snowdrift {
-  position: fixed;
-  bottom: -35px;
-  width: 300px;
-  height: 100px;
-  border-radius: 50%;
-  background: #fff;
-  box-shadow: 0 -8px 20px rgba(255,255,255,.5);
-  z-index: 1;
-  pointer-events: none;
-}
-
-.snowdrift.left { left: -110px; }
-
-.snowdrift.right {
-  right: -110px;
-  width: 360px;
-  height: 120px;
-}
-
-/* =================================
-   ТЕЛЕФОНЫ
-================================= */
-
-@media (max-width: 650px) {
-  header h1 {
-    font-size: 25px;
-  }
-
-  .family-buttons {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .gift-list {
-    grid-template-columns: 1fr;
-    gap: 22px;
-  }
-
-  .panel {
-    padding: 30px 16px 20px;
-  }
-
-  .login-card {
-    padding: 28px 20px;
-  }
-
-  .building-a,
-  .building-f {
-    width: 18%;
-  }
-
-  .building-b,
-  .building-e {
-    width: 16%;
-  }
-
-  .building-c,
-  .building-d {
-    width: 18%;
-  }
-
-  .tower {
-    width: 18%;
-    left: 41%;
-  }
-
-  .house {
-    transform: scale(.75);
-  }
-
-  .house-right {
-    transform: scale(.8);
-  }
-
-  .moon {
-    width: 60px;
-    height: 60px;
-  }
-
-  .candy {
-    width: 65px;
-    height: 22px;
-  }
-
-  .frame-corner {
-    width: 85px;
-    height: 78px;
-  }
-
-  .frame-ball {
-    width: 19px;
-    height: 19px;
-  }
-
-  .frame-star {
-    font-size: 22px;
-  }
+/* ТЕЛЕФОНЫ */
+@media(max-width:650px){
+ header h1{font-size:25px}
+ .family-buttons{grid-template-columns:repeat(2,1fr)}
+ .gift-list{grid-template-columns:1fr;gap:22px}
+ .panel{padding:30px 16px 20px}
+ .login-card{padding:28px 20px}
+ .building-a,.building-f{width:18%}
+ .building-b,.building-e{width:16%}
+ .building-c,.building-d{width:18%}
+ .tower{width:18%;left:41%}
+ .house{transform:scale(.75)}
+ .house-right{transform:scale(.8)}
+ .moon{width:60px;height:60px}
+ .candy{width:65px;height:22px}
+ .frame-corner{width:62px;height:62px}
+ .frame-ball{width:14px;height:14px}
+ .frame-ball.one{left:53px}
+ .frame-ball.two{right:53px}
+ .frame-ball.three{left:53px}
+ .frame-ball.four{right:53px}
+ .frame-star{font-size:16px}
 }
 </style>
 </head>
@@ -925,667 +214,388 @@ main {
 <body class="login-mode">
 
 <!-- НОЧНОЙ ГОРОД -->
-
 <div class="login-city">
   <div class="city-stars"></div>
   <div class="moon"></div>
-
   <div class="skyline-back"></div>
-
   <div class="building building-a"></div>
   <div class="building building-b"></div>
   <div class="building building-c"></div>
   <div class="building building-d"></div>
   <div class="building building-e"></div>
   <div class="building building-f"></div>
-
   <div class="tower"></div>
-
   <div class="house house-left"></div>
   <div class="house house-right"></div>
-
   <div class="street-lamp one"></div>
   <div class="street-lamp two"></div>
-
   <div class="city-ground"></div>
 </div>
-
-<!-- СНЕГ -->
 
 <div id="snow"></div>
 
 <!-- ЭКРАН ВХОДА -->
-
 <section id="loginScreen" class="login-content">
   <div class="login-card">
     <h1>🎄 Тёплый список</h1>
-
-    <p>
-      Семейный список желаний<br>
-      Войди, чтобы посмотреть подарки
-    </p>
-
+    <p>Семейный список желаний<br>Войди, чтобы посмотреть подарки</p>
     <form id="loginForm">
-      <input
-        id="email"
-        type="email"
-        placeholder="Электронная почта"
-        required
-      >
-
-      <input
-        id="password"
-        type="password"
-        placeholder="Пароль"
-        required
-      >
-
-      <button class="main-button" type="submit">
-        Войти
-      </button>
+      <input id="email" type="email" placeholder="Электронная почта" required>
+      <input id="password" type="password" placeholder="Пароль" required>
+      <button class="main-button" type="submit">Войти</button>
     </form>
-
     <p id="loginMessage"></p>
   </div>
 </section>
 
 <!-- ОСНОВНОЙ САЙТ -->
-
 <div id="app">
-
   <header>
     <h1>🎄 Тёплый список</h1>
     <p>Место, где живут новогодние желания ✨</p>
   </header>
 
   <div class="top-bar">
-    <div class="user-label" id="currentUser">
-      Вы вошли в семейный список
-    </div>
-
-    <button class="logout-button" onclick="logout()">
-      Выйти
-    </button>
+    <div class="user-label" id="currentUser">Вы вошли в семейный список</div>
+    <button class="logout-button" onclick="logout()">Выйти</button>
   </div>
 
   <main>
-
-    <!-- СЕМЕЙНЫЕ СПИСКИ -->
-
     <section class="panel">
       <span class="candy left"></span>
       <span class="candy right"></span>
-
       <h2>🎁 Семейные списки</h2>
-
       <p>Выбери, чей список подарков хочешь посмотреть:</p>
-
       <div class="family-buttons">
-
-        <button class="family-button active"
-          onclick="selectFamily('anya')" id="family-anya">
-          🌷 Аня
-        </button>
-
-        <button class="family-button"
-          onclick="selectFamily('arseniy')" id="family-arseniy">
-          ⭐ Арсений
-        </button>
-
-        <button class="family-button"
-          onclick="selectFamily('matvey')" id="family-matvey">
-          ❄️ Матвей
-        </button>
-
-        <button class="family-button"
-          onclick="selectFamily('vitaliy')" id="family-vitaliy">
-          🎅 Виталий
-        </button>
-
+        <button class="family-button active" onclick="selectFamily('anya')" id="family-anya">🌷 Аня</button>
+        <button class="family-button" onclick="selectFamily('arseniy')" id="family-arseniy">⭐ Арсений</button>
+        <button class="family-button" onclick="selectFamily('matvey')" id="family-matvey">❄️ Матвей</button>
+        <button class="family-button" onclick="selectFamily('vitaliy')" id="family-vitaliy">🎅 Виталий</button>
       </div>
     </section>
-
-    <!-- ДОБАВЛЕНИЕ ПОДАРКА -->
 
     <section class="panel" id="addGiftPanel">
       <span class="candy left"></span>
       <span class="candy right"></span>
-
       <h2>✨ Добавить желание</h2>
-
       <p>Запиши подарок, который хочется получить.</p>
-
       <form id="giftForm" class="gift-form">
-
-        <input
-          id="giftTitle"
-          type="text"
-          placeholder="Название подарка"
-          maxlength="120"
-          required
-        >
-
-        <textarea
-          id="giftDescription"
-          placeholder="Описание подарка"
-          maxlength="1000"
-        ></textarea>
-
-        <input
-          id="giftUrl"
-          type="url"
-          placeholder="Ссылка на подарок (необязательно)"
-        >
-
-        <input
-          id="giftImage"
-          type="url"
-          placeholder="Ссылка на картинку (необязательно)"
-        >
-
-        <button class="add-button" type="submit">
-          🎁 Добавить в список
-        </button>
-
+        <input id="giftTitle" type="text" placeholder="Название подарка" maxlength="120" required>
+        <textarea id="giftDescription" placeholder="Описание подарка" maxlength="1000"></textarea>
+        <input id="giftUrl" type="url" placeholder="Ссылка на подарок (необязательно)">
+        <input id="giftImage" type="url" placeholder="Ссылка на картинку (необязательно)">
+        <button class="add-button" type="submit">🎁 Добавить в список</button>
       </form>
-
       <div class="status-message" id="giftMessage"></div>
     </section>
-
-    <!-- СПИСОК ПОДАРКОВ -->
 
     <section class="panel">
       <span class="candy left"></span>
       <span class="candy right"></span>
-
       <h2 id="listTitle">🎁 Подарки Ани</h2>
-
       <div id="giftList">
-        <div class="empty-message">
-          Загружаем подарки...
-        </div>
+        <div class="empty-message">Загружаем подарки...</div>
       </div>
     </section>
-
   </main>
 
   <div class="snowdrift left"></div>
   <div class="snowdrift right"></div>
-
 </div>
 
 <script>
+/* SUPABASE */
+const SUPABASE_URL="https://coghijubvxwnsmaozlgc.supabase.co";
+const SUPABASE_KEY="sb_publishable_A8HcaBhXIOhHCmq-akDly_Amv4IF2q";
 
-/* =================================
-   SUPABASE
-================================= */
+const supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
-const SUPABASE_URL =
-  "https://coghijubvxwnsmaozlgc.supabase.co";
-
-const SUPABASE_KEY =
-  "sb_publishable_A8HcaBhXIOhHCmq-akDlyA_Amv4IF2q";
-
-const supabaseClient = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
-);
-
-/* =================================
-   ЧЛЕНЫ СЕМЬИ
-================================= */
-
-const FAMILY = {
-  anya: {
-    name: "Аня",
-    email: "ms.kozhakina@gmail.com"
-  },
-
-  arseniy: {
-    name: "Арсений",
-    email: "arseniy.kozhakin@gmail.com"
-  },
-
-  matvey: {
-    name: "Матвей",
-    email: "mathew.kozhakin@gmail.com"
-  },
-
-  vitaliy: {
-    name: "Виталий",
-    email: "vk.answer33@gmail.com"
-  }
+/* ЧЛЕНЫ СЕМЬИ */
+const FAMILY={
+  anya:{name:"Аня",email:"ms.kozhakina@gmail.com"},
+  arseniy:{name:"Арсений",email:"arseniy.kozhakin@gmail.com"},
+  matvey:{name:"Матвей",email:"mathew.kozhakin@gmail.com"},
+  vitaliy:{name:"Виталий",email:"vk.answer33@gmail.com"}
 };
 
-let currentSession = null;
-let currentFamily = "anya";
+let currentSession=null;
+let currentFamily="anya";
 
-/* =================================
-   СОЗДАНИЕ СНЕГА
-================================= */
-
-function createSnow() {
-  const snow = document.getElementById("snow");
-  snow.innerHTML = "";
-
-  for (let i = 0; i < 85; i++) {
-    const flake = document.createElement("div");
-
-    flake.className = "snowflake";
-    flake.textContent = "❄";
-
-    flake.style.left = Math.random() * 100 + "%";
-
-    flake.style.fontSize =
-      (8 + Math.random() * 15) + "px";
-
-    flake.style.animationDuration =
-      (7 + Math.random() * 13) + "s";
-
-    flake.style.animationDelay =
-      (-Math.random() * 20) + "s";
-
+/* СНЕГ */
+function createSnow(){
+  const snow=document.getElementById("snow");
+  snow.innerHTML="";
+  for(let i=0;i<85;i++){
+    const flake=document.createElement("div");
+    flake.className="snowflake";
+    flake.textContent="❄";
+    flake.style.left=Math.random()*100+"%";
+    flake.style.fontSize=(8+Math.random()*15)+"px";
+    flake.style.animationDuration=(7+Math.random()*13)+"s";
+    flake.style.animationDelay=(-Math.random()*20)+"s";
     snow.appendChild(flake);
   }
 }
-
 createSnow();
 
-/* =================================
-   ВХОД
-================================= */
+/* ВХОД */
+document.getElementById("loginForm").addEventListener("submit",async function(event){
+  event.preventDefault();
 
-document
-  .getElementById("loginForm")
-  .addEventListener("submit", async function(event) {
+  const email=document.getElementById("email").value.trim();
+  const password=document.getElementById("password").value;
+  const message=document.getElementById("loginMessage");
 
-    event.preventDefault();
+  message.textContent="Выполняется вход...";
 
-    const email =
-      document.getElementById("email").value.trim();
+  const {data,error}=await supabaseClient.auth.signInWithPassword({email,password});
 
-    const password =
-      document.getElementById("password").value;
+  if(error){
+    message.textContent="Не удалось войти. Проверь почту и пароль.";
+    return;
+  }
 
-    const message =
-      document.getElementById("loginMessage");
+  currentSession=data.session;
+  await showApp();
+});
 
-    message.textContent = "Выполняется вход...";
+/* ПОКАЗ САЙТА */
+async function showApp(){
+  const email=currentSession.user.email;
 
-    const { data, error } =
-      await supabaseClient.auth.signInWithPassword({
-        email: email,
-        password: password
-      });
-
-    if (error) {
-      message.textContent =
-        "Не удалось войти. Проверь почту и пароль.";
-      return;
-    }
-
-    currentSession = data.session;
-
-    await showApp();
-  });
-
-/* =================================
-   ПОКАЗ САЙТА ПОСЛЕ ВХОДА
-================================= */
-
-async function showApp() {
-  document.body.classList.remove("login-mode");
-  document.body.classList.add("app-mode");
-
-  document.getElementById("loginScreen").style.display = "none";
-  document.getElementById("app").style.display = "block";
-
-  const email = currentSession.user.email;
-
-  const familyEntry = Object.entries(FAMILY).find(
-    ([slug, person]) =>
-      person.email.toLowerCase() === email.toLowerCase()
+  const familyEntry=Object.entries(FAMILY).find(
+    ([slug,person])=>person.email.toLowerCase()===email.toLowerCase()
   );
 
-  if (!familyEntry) {
+  if(!familyEntry){
     alert("Этот аккаунт не найден в семейном списке.");
-
     await supabaseClient.auth.signOut();
-    location.reload();
+    currentSession=null;
+    document.body.classList.remove("app-mode");
+    document.body.classList.add("login-mode");
+    document.getElementById("app").style.display="none";
+    document.getElementById("loginScreen").style.display="flex";
     return;
   }
 
-  const [slug, person] = familyEntry;
+  const [slug,person]=familyEntry;
+  currentFamily=slug;
 
-  currentFamily = slug;
+  document.body.classList.remove("login-mode");
+  document.body.classList.add("app-mode");
+  document.getElementById("loginScreen").style.display="none";
+  document.getElementById("app").style.display="block";
 
-  document.getElementById("currentUser").textContent =
-    "Вы вошли как: " + person.name;
+  document.getElementById("currentUser").textContent="Вы вошли как: "+person.name;
 
   updateFamilyButtons();
-
   await loadGifts();
 }
 
-/* =================================
-   ПРОВЕРКА СОХРАНЁННОЙ СЕССИИ
-================================= */
-
-async function checkSession() {
-  const { data, error } =
-    await supabaseClient.auth.getSession();
-
-  if (error) {
-    console.error(error);
-    return;
-  }
-
-  if (data.session) {
-    currentSession = data.session;
+/* ПРОВЕРКА СОХРАНЁННОЙ СЕССИИ */
+async function checkSession(){
+  const {data,error}=await supabaseClient.auth.getSession();
+  if(error){console.error(error);return;}
+  if(data.session){
+    currentSession=data.session;
     await showApp();
   }
 }
-
 checkSession();
 
-/* =================================
-   ВЫХОД
-================================= */
-
-async function logout() {
+/* ВЫХОД */
+async function logout(){
   await supabaseClient.auth.signOut();
-
-  currentSession = null;
-
+  currentSession=null;
   document.body.classList.remove("app-mode");
   document.body.classList.add("login-mode");
-
-  document.getElementById("app").style.display = "none";
-  document.getElementById("loginScreen").style.display = "flex";
-
-  document.getElementById("password").value = "";
-  document.getElementById("loginMessage").textContent = "";
+  document.getElementById("app").style.display="none";
+  document.getElementById("loginScreen").style.display="flex";
+  document.getElementById("password").value="";
+  document.getElementById("loginMessage").textContent="";
 }
 
-/* =================================
-   ВЫБОР СПИСКА
-================================= */
-
-async function selectFamily(slug) {
-  if (!FAMILY[slug]) return;
-
-  currentFamily = slug;
-
+/* ВЫБОР СЕМЕЙНОГО СПИСКА */
+async function selectFamily(slug){
+  if(!FAMILY[slug])return;
+  currentFamily=slug;
   updateFamilyButtons();
-
   await loadGifts();
 }
 
-function updateFamilyButtons() {
-  document.querySelectorAll(".family-button").forEach(button => {
-    button.classList.remove("active");
-  });
-
-  const activeButton =
-    document.getElementById("family-" + currentFamily);
-
-  if (activeButton) {
-    activeButton.classList.add("active");
-  }
-
-  document.getElementById("listTitle").textContent =
-    "🎁 Подарки " + FAMILY[currentFamily].name;
+function updateFamilyButtons(){
+  document.querySelectorAll(".family-button").forEach(button=>button.classList.remove("active"));
+  const activeButton=document.getElementById("family-"+currentFamily);
+  if(activeButton)activeButton.classList.add("active");
+  document.getElementById("listTitle").textContent="🎁 Подарки "+FAMILY[currentFamily].name;
 }
 
-/* =================================
-   ЗАГРУЗКА ПОДАРКОВ
-================================= */
+/* ЗАГРУЗКА ПОДАРКОВ */
+async function loadGifts(){
+  const giftList=document.getElementById("giftList");
+  giftList.innerHTML='<div class="empty-message">Загружаем подарки...</div>';
 
-async function loadGifts() {
-  const giftList = document.getElementById("giftList");
-
-  giftList.innerHTML =
-    '<div class="empty-message">Загружаем подарки...</div>';
-
-  const { data, error } = await supabaseClient
+  const {data,error}=await supabaseClient
     .from("gifts")
     .select("*")
-    .eq("owner_slug", currentFamily)
-    .order("created_at", { ascending: false });
+    .eq("owner_slug",currentFamily)
+    .order("created_at",{ascending:false});
 
-  if (error) {
-    giftList.innerHTML =
-      '<div class="empty-message">Не удалось загрузить список. Попробуй обновить страницу.</div>';
-
+  if(error){
+    giftList.innerHTML='<div class="empty-message">Не удалось загрузить список. Попробуй обновить страницу.</div>';
     console.error(error);
     return;
   }
 
-  if (!data || data.length === 0) {
-    giftList.innerHTML =
-      '<div class="empty-message">Пока здесь нет подарков. Можно добавить первое желание! 🎄</div>';
-
+  if(!data||data.length===0){
+    giftList.innerHTML='<div class="empty-message">Пока здесь нет подарков. Можно добавить первое желание! 🎄</div>';
     return;
   }
 
-  giftList.innerHTML = "";
+  giftList.innerHTML="";
+  const grid=document.createElement("div");
+  grid.className="gift-list";
 
-  const grid = document.createElement("div");
-  grid.className = "gift-list";
-
-  data.forEach(gift => {
-    grid.appendChild(createGiftCard(gift));
-  });
-
+  data.forEach(gift=>grid.appendChild(createGiftCard(gift)));
   giftList.appendChild(grid);
 }
 
-/* =================================
-   СОЗДАНИЕ НОВОГОДНЕЙ КАРТОЧКИ
-================================= */
+/* СОЗДАНИЕ ПРАЗДНИЧНОЙ РАМКИ */
+function createGiftCard(gift){
+  const card=document.createElement("article");
+  card.className="gift-card";
 
-function createGiftCard(gift) {
-  const card = document.createElement("article");
-  card.className = "gift-card";
+  const frame=document.createElement("div");
+  frame.className="gift-frame";
 
-  // Праздничная рамка
-
-  const frame = document.createElement("div");
-  frame.className = "gift-frame";
-
-  frame.innerHTML = `
+  frame.innerHTML=`
     <span class="frame-corner frame-top-left"></span>
     <span class="frame-corner frame-top-right"></span>
     <span class="frame-corner frame-bottom-left"></span>
     <span class="frame-corner frame-bottom-right"></span>
-
     <span class="frame-ball one"></span>
     <span class="frame-ball two"></span>
     <span class="frame-ball three"></span>
     <span class="frame-ball four"></span>
-
     <span class="frame-star one">★</span>
     <span class="frame-star two">★</span>
-
-    <span class="frame-cookie one"></span>
-    <span class="frame-cookie two"></span>
   `;
-
   card.appendChild(frame);
 
-  // Фотография
-
-  if (gift.image_url) {
-    const image = document.createElement("img");
-
-    image.src = gift.image_url;
-    image.alt = gift.title || "Подарок";
-    image.loading = "lazy";
-
-    image.onerror = function() {
-      image.style.display = "none";
-    };
-
+  if(gift.image_url){
+    const image=document.createElement("img");
+    image.src=gift.image_url;
+    image.alt=gift.title||"Подарок";
+    image.loading="lazy";
+    image.onerror=function(){image.style.display="none";};
     card.appendChild(image);
   }
 
-  // Содержимое
+  const content=document.createElement("div");
+  content.className="gift-card-content";
 
-  const content = document.createElement("div");
-  content.className = "gift-card-content";
-
-  const title = document.createElement("h3");
-  title.textContent = "🎁 " + gift.title;
-
+  const title=document.createElement("h3");
+  title.textContent="🎁 "+gift.title;
   content.appendChild(title);
 
-  if (gift.description) {
-    const description = document.createElement("p");
-    description.textContent = gift.description;
+  if(gift.description){
+    const description=document.createElement("p");
+    description.textContent=gift.description;
     content.appendChild(description);
   }
 
-  // Ссылка на подарок
-
-  if (gift.url) {
-    try {
-      const parsedUrl = new URL(gift.url);
-
-      if (
-        parsedUrl.protocol === "https:" ||
-        parsedUrl.protocol === "http:"
-      ) {
-        const link = document.createElement("a");
-
-        link.href = parsedUrl.href;
-        link.target = "_blank";
-        link.rel = "noopener noreferrer";
-        link.className = "gift-link";
-        link.textContent = "Посмотреть подарок ↗";
-
+  if(gift.url){
+    try{
+      const parsedUrl=new URL(gift.url);
+      if(parsedUrl.protocol==="https:"||parsedUrl.protocol==="http:"){
+        const link=document.createElement("a");
+        link.href=parsedUrl.href;
+        link.target="_blank";
+        link.rel="noopener noreferrer";
+        link.className="gift-link";
+        link.textContent="Посмотреть подарок ↗";
         content.appendChild(link);
       }
-    } catch (error) {
-      console.warn("Некорректная ссылка:", gift.url);
+    }catch(error){
+      console.warn("Некорректная ссылка:",gift.url);
     }
   }
 
-  // Кнопка удаления только для владельца
+  const isOwner=currentSession&&gift.owner_id===currentSession.user.id;
 
-  const isOwner =
-    currentSession &&
-    gift.owner_id === currentSession.user.id;
-
-  if (isOwner) {
-    const deleteButton = document.createElement("button");
-
-    deleteButton.className = "delete-button";
-    deleteButton.textContent = "Удалить";
-
-    deleteButton.addEventListener("click", function() {
-      deleteGift(gift.id);
-    });
-
+  if(isOwner){
+    const deleteButton=document.createElement("button");
+    deleteButton.className="delete-button";
+    deleteButton.textContent="Удалить";
+    deleteButton.addEventListener("click",()=>deleteGift(gift.id));
     content.appendChild(deleteButton);
   }
 
   card.appendChild(content);
-
   return card;
 }
 
-/* =================================
-   ДОБАВЛЕНИЕ ПОДАРКА
-================================= */
+/* ДОБАВЛЕНИЕ ПОДАРКА */
+document.getElementById("giftForm").addEventListener("submit",async function(event){
+  event.preventDefault();
 
-document
-  .getElementById("giftForm")
-  .addEventListener("submit", async function(event) {
+  const message=document.getElementById("giftMessage");
 
-    event.preventDefault();
+  if(!currentSession){
+    message.textContent="Сначала нужно войти.";
+    return;
+  }
 
-    const message =
-      document.getElementById("giftMessage");
+  const title=document.getElementById("giftTitle").value.trim();
+  const description=document.getElementById("giftDescription").value.trim();
+  const url=document.getElementById("giftUrl").value.trim();
+  const imageUrl=document.getElementById("giftImage").value.trim();
 
-    if (!currentSession) {
-      message.textContent = "Сначала нужно войти.";
-      return;
-    }
+  if(!title){
+    message.textContent="Напиши название подарка.";
+    return;
+  }
 
-    const title =
-      document.getElementById("giftTitle").value.trim();
+  if(currentSession.user.email.toLowerCase()!==FAMILY[currentFamily].email.toLowerCase()){
+    message.textContent="Добавлять подарки можно только в свой список.";
+    return;
+  }
 
-    const description =
-      document.getElementById("giftDescription").value.trim();
+  message.textContent="Добавляем подарок...";
 
-    const url =
-      document.getElementById("giftUrl").value.trim();
-
-    const imageUrl =
-      document.getElementById("giftImage").value.trim();
-
-    if (!title) {
-      message.textContent = "Напиши название подарка.";
-      return;
-    }
-
-    if (
-      currentSession.user.email.toLowerCase() !==
-      FAMILY[currentFamily].email.toLowerCase()
-    ) {
-      message.textContent =
-        "Добавлять подарки можно только в свой список.";
-      return;
-    }
-
-    message.textContent = "Добавляем подарок...";
-
-    const { error } = await supabaseClient
-      .from("gifts")
-      .insert({
-        owner_id: currentSession.user.id,
-        owner_slug: currentFamily,
-        title: title,
-        description: description,
-        url: url || null,
-        image_url: imageUrl || null
-      });
-
-    if (error) {
-      console.error(error);
-
-      message.textContent =
-        "Не удалось добавить подарок. Попробуй ещё раз.";
-
-      return;
-    }
-
-    document.getElementById("giftForm").reset();
-
-    message.textContent = "Подарок добавлен! 🎄";
-
-    await loadGifts();
+  const {error}=await supabaseClient.from("gifts").insert({
+    owner_id:currentSession.user.id,
+    owner_slug:currentFamily,
+    title:title,
+    description:description,
+    url:url||null,
+    image_url:imageUrl||null
   });
 
-/* =================================
-   УДАЛЕНИЕ ПОДАРКА
-================================= */
+  if(error){
+    console.error(error);
+    message.textContent="Не удалось добавить подарок. Попробуй ещё раз.";
+    return;
+  }
 
-async function deleteGift(id) {
-  if (!currentSession) return;
+  document.getElementById("giftForm").reset();
+  message.textContent="Подарок добавлен! 🎄";
+  await loadGifts();
+});
 
-  const confirmed =
-    confirm("Точно удалить этот подарок из списка?");
+/* УДАЛЕНИЕ ПОДАРКА */
+async function deleteGift(id){
+  if(!currentSession)return;
 
-  if (!confirmed) return;
+  if(!confirm("Точно удалить этот подарок из списка?"))return;
 
-  const { error } = await supabaseClient
+  const {error}=await supabaseClient
     .from("gifts")
     .delete()
-    .eq("id", id)
-    .eq("owner_id", currentSession.user.id);
+    .eq("id",id)
+    .eq("owner_id",currentSession.user.id);
 
-  if (error) {
+  if(error){
     alert("Не удалось удалить подарок.");
     console.error(error);
     return;
@@ -1593,8 +603,6 @@ async function deleteGift(id) {
 
   await loadGifts();
 }
-
 </script>
-
 </body>
 </html>
