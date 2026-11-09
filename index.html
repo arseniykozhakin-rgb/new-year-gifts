@@ -2,607 +2,1457 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Тёплый список — новогодние желания</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#101a2c">
+  <title>Тёплый список — Подарки на Новый год</title>
 
-<style>
-*{box-sizing:border-box}
-body{margin:0;min-height:100vh;font-family:Arial,sans-serif;color:#263b52;background:#eaf2fa;overflow-x:hidden}
-button,input,textarea{font:inherit}
-button{cursor:pointer}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-/* СНЕГ */
-#snow{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:1000}
-.snowflake{position:absolute;top:-30px;color:white;opacity:.9;text-shadow:0 0 5px #b9d7f0;animation:snowfall linear infinite}
-@keyframes snowfall{to{transform:translate3d(35px,110vh,0) rotate(360deg)}}
+  <style>
+    :root {
+      --gold: #f4cf78;
+      --gold-light: #fff0bd;
+      --gold-dark: #b78335;
+      --cream: #fff9e9;
+      --night: #101a2c;
+      --night-light: #192942;
+      --green: #245b48;
+      --red: #a83d48;
+      --text: #fff9ed;
+      --muted: #c8d1df;
+    }
 
-/* НОЧНОЙ ГОРОД */
-body.login-mode{background:#101e35}
-.login-city{display:none;position:fixed;inset:0;z-index:0;overflow:hidden;background:radial-gradient(ellipse at 78% 18%,rgba(83,117,157,.35),transparent 35%),linear-gradient(to bottom,#071326,#142943 48%,#314c68)}
-body.login-mode .login-city{display:block}
-.city-stars{position:absolute;inset:0;opacity:.7;background-image:radial-gradient(2px 2px at 10% 20%,#fff,transparent),radial-gradient(1px 1px at 25% 12%,#fff,transparent),radial-gradient(2px 2px at 43% 25%,#dceaff,transparent),radial-gradient(1px 1px at 60% 10%,#fff,transparent),radial-gradient(2px 2px at 85% 28%,#fff,transparent),radial-gradient(1px 1px at 92% 13%,#fff,transparent)}
-.moon{position:absolute;top:8%;right:15%;width:85px;height:85px;border-radius:50%;background:#fff2c9;box-shadow:0 0 20px rgba(255,242,201,.5),0 0 65px rgba(255,242,201,.2)}
-.skyline-back{position:absolute;bottom:100px;left:0;width:100%;height:35%;opacity:.55;background:linear-gradient(to top,#172b43 0 70%,transparent 70%)}
-.skyline-back:before{content:"";position:absolute;inset:0;background:linear-gradient(to top,#1a3049 0 75%,transparent 75%) 0 0/9% 100%,linear-gradient(to top,#203a55 0 90%,transparent 90%) 9% 0/10% 100%,linear-gradient(to top,#172c45 0 60%,transparent 60%) 19% 0/8% 100%,linear-gradient(to top,#213a54 0 82%,transparent 82%) 27% 0/12% 100%,linear-gradient(to top,#192e47 0 68%,transparent 68%) 39% 0/9% 100%,linear-gradient(to top,#203952 0 95%,transparent 95%) 48% 0/10% 100%,linear-gradient(to top,#172c44 0 70%,transparent 70%) 58% 0/9% 100%,linear-gradient(to top,#203951 0 85%,transparent 85%) 67% 0/11% 100%,linear-gradient(to top,#172b43 0 65%,transparent 65%) 78% 0/10% 100%,linear-gradient(to top,#203951 0 80%,transparent 80%) 88% 0/12% 100%}
-.building{position:absolute;bottom:85px;background:linear-gradient(90deg,#172a42,#29425d 50%,#172a42);border:1px solid rgba(180,205,230,.12);box-shadow:8px 0 25px rgba(0,0,0,.18)}
-.building:before{content:"";position:absolute;left:-5px;right:-5px;top:-13px;height:14px;background:#40566c;border-radius:2px 2px 0 0;box-shadow:0 -4px 0 #e4edf5}
-.building:after{content:"";position:absolute;inset:25px 13px;background-image:repeating-linear-gradient(90deg,transparent 0 13px,rgba(255,210,112,.95) 13px 21px,transparent 21px 34px),repeating-linear-gradient(0deg,transparent 0 22px,rgba(255,218,135,.9) 22px 32px,transparent 32px 48px);opacity:.8}
-.building-a{left:1%;width:13%;height:230px}.building-b{left:14%;width:12%;height:330px}.building-c{left:27%;width:15%;height:270px}.building-d{right:28%;width:13%;height:350px}.building-e{right:14%;width:14%;height:245px}.building-f{right:0;width:14%;height:300px}
-.tower{position:absolute;bottom:85px;left:46%;width:12%;height:390px;background:linear-gradient(90deg,#182c45,#2d4864,#182c45);border:1px solid rgba(255,255,255,.1)}
-.tower:before{content:"";position:absolute;top:-55px;left:20%;width:60%;height:55px;background:#354e68;clip-path:polygon(50% 0,100% 100%,0 100%)}
-.tower:after{content:"";position:absolute;inset:25px 14px;background:repeating-linear-gradient(90deg,transparent 0 13px,#ffd77d 13px 21px,transparent 21px 32px),repeating-linear-gradient(0deg,transparent 0 23px,#ffd77d 23px 32px,transparent 32px 45px);opacity:.85}
-.house{position:absolute;bottom:80px;width:150px;height:125px;background:linear-gradient(90deg,#253d57,#3a5570,#253d57);border-radius:3px 3px 0 0;box-shadow:0 0 20px rgba(0,0,0,.2)}
-.house:before{content:"";position:absolute;top:-58px;left:-18px;width:186px;height:65px;background:#4a6076;clip-path:polygon(50% 0,100% 100%,0 100%);border-bottom:5px solid #e6eef5}
-.house:after{content:"";position:absolute;top:35px;left:25px;width:25px;height:30px;background:#ffd77a;box-shadow:65px 0 #ffd77a,0 45px #ffd77a,65px 45px #ffd77a}
-.house-left{left:10%}.house-right{right:9%;transform:scale(1.12)}
-.street-lamp{position:absolute;bottom:75px;width:7px;height:145px;background:#172638;border-radius:5px;z-index:3}
-.street-lamp:before{content:"";position:absolute;top:-12px;left:-9px;width:25px;height:20px;border-radius:8px 8px 3px 3px;background:#ffe6a0;box-shadow:0 0 22px 8px rgba(255,219,130,.5)}
-.street-lamp.one{left:30%}.street-lamp.two{right:31%;transform:scale(.9)}
-.city-ground{position:absolute;bottom:0;left:-5%;width:110%;height:115px;background:linear-gradient(to bottom,#f8fbff,#d9e7f3);border-radius:50% 50% 0 0/20% 20% 0 0}
-.city-ground:before{content:"";position:absolute;left:0;top:-35px;width:100%;height:65px;background:#f8fbff;border-radius:50%}
-.city-ground:after{content:"";position:absolute;left:10%;top:12px;width:35%;height:30px;background:#fff;border-radius:50%;filter:blur(5px)}
+    * {
+      box-sizing: border-box;
+    }
 
-/* ВХОД */
-.login-content{position:relative;z-index:5;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:25px}
-.login-card{width:100%;max-width:420px;padding:35px 30px;text-align:center;border-radius:24px;background:rgba(255,255,255,.95);box-shadow:0 15px 55px rgba(0,0,0,.35);backdrop-filter:blur(8px)}
-.login-card h1{margin:0 0 10px;color:#243d5a;font-size:30px}
-.login-card p{color:#71849a;line-height:1.5}
-.login-card input{display:block;width:100%;margin-top:13px;padding:14px;border:1px solid #d1dce8;border-radius:11px;outline:none}
-.login-card input:focus{border-color:#638db7;box-shadow:0 0 0 3px rgba(99,141,183,.15)}
-.main-button{width:100%;margin-top:18px;padding:14px;border:0;border-radius:11px;background:#355d86;color:white;font-weight:bold;transition:.2s}
-.main-button:hover{background:#24486e;transform:translateY(-2px)}
-#loginMessage{min-height:20px;color:#b33b3b;font-size:14px}
+    html {
+      scroll-behavior: smooth;
+    }
 
-/* ОСНОВНОЙ САЙТ */
-body.app-mode{background:linear-gradient(180deg,#dceafa,#f4f8fc)}
-#app{display:none;position:relative;z-index:2;min-height:100vh;padding-bottom:70px}
-body.app-mode #app{display:block}
-header{position:relative;z-index:3;padding:26px 20px;text-align:center;color:white;background:linear-gradient(120deg,#243f61,#41698e);box-shadow:0 4px 15px rgba(20,45,75,.2)}
-header h1{margin:0;font-size:32px}
-header p{margin:8px 0 0;color:#e3edf8}
-.top-bar{max-width:1000px;margin:18px auto;padding:0 15px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
-.user-label{color:#344e6c;font-weight:bold}
-.logout-button{padding:10px 16px;border:0;border-radius:10px;background:#dce7f2;color:#344e6c;font-weight:bold}
-.logout-button:hover{background:#c8d9eb}
-main{max-width:1000px;margin:0 auto;padding:0 15px}
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      font-family: "Manrope", sans-serif;
+      background:
+        radial-gradient(ellipse at 50% 0%, rgba(61, 94, 132, .42), transparent 55%),
+        linear-gradient(180deg, #101a2c 0%, #17263c 55%, #0c1728 100%);
+      overflow-x: hidden;
+    }
 
-/* ПАНЕЛИ */
-.panel{position:relative;margin:28px 0;padding:30px 25px 25px;border-radius:20px;background:rgba(255,255,255,.96);box-shadow:0 7px 25px rgba(48,77,108,.1)}
-.candy{position:absolute;top:-12px;width:76px;height:25px;border-radius:18px;z-index:5;border:3px solid white;background:repeating-linear-gradient(45deg,#c92837 0 8px,#fff 8px 15px,#21834b 15px 22px,#fff 22px 29px);box-shadow:0 3px 8px rgba(0,0,0,.2)}
-.candy.left{left:20px;transform:rotate(-18deg)}.candy.right{right:20px;transform:rotate(18deg)}
-.panel h2{margin-top:0;color:#2e4d6d}
+    button, input, textarea {
+      font: inherit;
+    }
 
-/* СЕМЕЙНЫЕ КНОПКИ */
-.family-buttons{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-.family-button{padding:17px 10px;border:2px solid #dce7f2;border-radius:14px;background:#f5f9fd;color:#355675;font-weight:bold;transition:.2s}
-.family-button:hover{background:#e3eef9;transform:translateY(-2px)}
-.family-button.active{border-color:#547fa8;background:#dceafa;color:#23496e}
+    button {
+      cursor: pointer;
+    }
 
-/* ДОБАВЛЕНИЕ */
-.gift-form{display:grid;gap:12px}
-.gift-form input,.gift-form textarea{width:100%;padding:13px;border:1px solid #d0dce9;border-radius:11px;outline:none;background:#fbfdff}
-.gift-form textarea{min-height:85px;resize:vertical}
-.gift-form input:focus,.gift-form textarea:focus{border-color:#7398bd}
-.add-button{padding:14px;border:0;border-radius:11px;color:white;background:#477a68;font-weight:bold}
-.add-button:hover{background:#356653}
+    /* ЗВЁЗДНОЕ НЕБО */
 
-/* КАРТОЧКИ */
-.gift-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;padding:10px 5px}
-.gift-card{
-  position:relative;
-  isolation:isolate;
-  padding:16px;
-  border:3px solid #c99b45;
-  border-radius:20px;
-  background:#fff;
-  box-shadow:0 5px 18px rgba(40,65,90,.13);
-  overflow:visible;
-}
+    .sky {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
 
-/* ВНУТРЕННЯЯ ЛИНИЯ */
-.gift-card:before{
-  content:"";
-  position:absolute;
-  inset:5px;
-  border:1px solid #e7cf9b;
-  border-radius:12px;
-  pointer-events:none;
-  z-index:0;
-}
+    .star {
+      position: absolute;
+      color: #fff2c6;
+      opacity: .7;
+      animation: twinkle 3s infinite ease-in-out;
+    }
 
-/* НОВАЯ РАМКА: ДЕКОРАТИВНЫЕ УГОЛКИ */
-.gift-frame{
-  position:absolute;
-  inset:-3px;
-  z-index:3;
-  pointer-events:none;
-  border-radius:19px;
-  overflow:hidden;
-}
+    .star:nth-child(1) { top: 8%; left: 8%; font-size: 14px; }
+    .star:nth-child(2) { top: 17%; left: 84%; font-size: 18px; animation-delay: 1s; }
+    .star:nth-child(3) { top: 38%; left: 92%; font-size: 12px; animation-delay: 2s; }
+    .star:nth-child(4) { top: 58%; left: 5%; font-size: 16px; animation-delay: .5s; }
+    .star:nth-child(5) { top: 76%; left: 88%; font-size: 13px; animation-delay: 1.5s; }
+    .star:nth-child(6) { top: 91%; left: 18%; font-size: 18px; animation-delay: 2.5s; }
+    .star:nth-child(7) { top: 29%; left: 48%; font-size: 10px; animation-delay: 1.2s; }
+    .star:nth-child(8) { top: 68%; left: 65%; font-size: 15px; animation-delay: .8s; }
 
-/* ЕЛОВЫЕ ВЕТОЧКИ */
-.frame-corner{
-  position:absolute;
-  width:75px;
-  height:75px;
-  background:
-    repeating-conic-gradient(from 225deg at 0% 100%,
-      transparent 0deg 5deg,
-      #155b32 5deg 8deg,
-      #287c42 8deg 11deg,
-      transparent 11deg 15deg);
-  filter:drop-shadow(1px 2px 1px rgba(0,0,0,.2));
-}
-.frame-top-left{top:0;left:0}
-.frame-top-right{top:0;right:0;transform:scaleX(-1)}
-.frame-bottom-left{bottom:0;left:0;transform:scaleY(-1)}
-.frame-bottom-right{bottom:0;right:0;transform:scale(-1)}
+    @keyframes twinkle {
+      0%, 100% { opacity: .3; transform: scale(.8); }
+      50% { opacity: 1; transform: scale(1.25); }
+    }
 
-/* ШАРИКИ */
-.frame-ball{
-  position:absolute;
-  width:17px;
-  height:17px;
-  border-radius:50%;
-  background:radial-gradient(circle at 30% 25%,#fff5bd,#e9b943 35%,#a96b18 75%,#70420c);
-  box-shadow:0 2px 5px rgba(0,0,0,.25);
-}
-.frame-ball.one{top:12px;left:65px}
-.frame-ball.two{top:12px;right:65px;background:radial-gradient(circle at 30% 25%,#ffe0e0,#df5353 40%,#a51d2d)}
-.frame-ball.three{bottom:12px;left:65px;background:radial-gradient(circle at 30% 25%,#ffe0e0,#df5353 40%,#a51d2d)}
-.frame-ball.four{bottom:12px;right:65px}
+    /* СНЕГ */
 
-/* ЗВЁЗДЫ */
-.frame-star{position:absolute;color:#d9a63e;font-size:19px;line-height:1;text-shadow:1px 2px 2px rgba(100,65,15,.3)}
-.frame-star.one{top:8px;left:43%}
-.frame-star.two{bottom:8px;right:43%}
+    .snow {
+      position: fixed;
+      inset: 0;
+      z-index: 5;
+      pointer-events: none;
+      overflow: hidden;
+    }
 
-/* КАРТОЧКА: ФОТО И ТЕКСТ */
-.gift-card img{
-  position:relative;
-  z-index:1;
-  display:block;
-  width:100%;
-  height:190px;
-  object-fit:cover;
-  background:#eaf1f8;
-  border-radius:9px;
-}
-.gift-card-content{position:relative;z-index:1;padding:17px 10px 12px}
-.gift-card h3{margin:0 0 9px;color:#2f4d6b}
-.gift-card p{color:#687d92;line-height:1.5;white-space:pre-wrap}
-.gift-link{display:inline-block;margin-top:8px;color:#376f9f;font-weight:bold;text-decoration:none}
-.gift-link:hover{text-decoration:underline}
-.delete-button{display:block;margin-top:14px;padding:9px 13px;border:0;border-radius:9px;background:#f8e4e4;color:#a43b3b;font-weight:bold}
-.delete-button:hover{background:#f2d0d0}
-.empty-message{padding:20px;text-align:center;color:#7b8fa4;background:#f5f9fd;border-radius:12px}
-.status-message{margin-top:12px;color:#a43b3b;font-size:14px}
+    .snowflake {
+      position: absolute;
+      top: -30px;
+      color: white;
+      opacity: .8;
+      user-select: none;
+      animation: snowfall linear infinite;
+    }
 
-/* СУГРОБЫ */
-.snowdrift{position:fixed;bottom:-35px;width:300px;height:100px;border-radius:50%;background:#fff;box-shadow:0 -8px 20px rgba(255,255,255,.5);z-index:1;pointer-events:none}
-.snowdrift.left{left:-110px}
-.snowdrift.right{right:-110px;width:360px;height:120px}
+    @keyframes snowfall {
+      to {
+        transform: translateY(110vh) translateX(35px) rotate(360deg);
+      }
+    }
 
-/* ТЕЛЕФОНЫ */
-@media(max-width:650px){
- header h1{font-size:25px}
- .family-buttons{grid-template-columns:repeat(2,1fr)}
- .gift-list{grid-template-columns:1fr;gap:22px}
- .panel{padding:30px 16px 20px}
- .login-card{padding:28px 20px}
- .building-a,.building-f{width:18%}
- .building-b,.building-e{width:16%}
- .building-c,.building-d{width:18%}
- .tower{width:18%;left:41%}
- .house{transform:scale(.75)}
- .house-right{transform:scale(.8)}
- .moon{width:60px;height:60px}
- .candy{width:65px;height:22px}
- .frame-corner{width:62px;height:62px}
- .frame-ball{width:14px;height:14px}
- .frame-ball.one{left:53px}
- .frame-ball.two{right:53px}
- .frame-ball.three{left:53px}
- .frame-ball.four{right:53px}
- .frame-star{font-size:16px}
-}
-</style>
+    /* ГОРОД НА ФОНЕ */
+
+    .city {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 145px;
+      z-index: 0;
+      opacity: .28;
+      pointer-events: none;
+      display: flex;
+      align-items: end;
+      justify-content: space-around;
+    }
+
+    .building {
+      width: 8%;
+      background: #08111e;
+      border-radius: 5px 5px 0 0;
+      position: relative;
+    }
+
+    .building::before {
+      content: "";
+      position: absolute;
+      inset: 12px 8px;
+      background: repeating-linear-gradient(
+        90deg,
+        transparent 0 12px,
+        #f4cf78 12px 16px
+      );
+      opacity: .5;
+    }
+
+    .building:nth-child(1) { height: 75px; }
+    .building:nth-child(2) { height: 110px; }
+    .building:nth-child(3) { height: 90px; }
+    .building:nth-child(4) { height: 135px; }
+    .building:nth-child(5) { height: 80px; }
+    .building:nth-child(6) { height: 115px; }
+    .building:nth-child(7) { height: 95px; }
+    .building:nth-child(8) { height: 125px; }
+    .building:nth-child(9) { height: 70px; }
+    .building:nth-child(10) { height: 105px; }
+
+    /* ОСНОВНАЯ ОБЛАСТЬ */
+
+    .page {
+      position: relative;
+      z-index: 1;
+      width: min(1120px, calc(100% - 30px));
+      margin: 0 auto;
+      padding: 35px 0 90px;
+    }
+
+    header {
+      text-align: center;
+      padding: 22px 10px 28px;
+    }
+
+    .top-decoration {
+      font-size: 30px;
+      letter-spacing: 12px;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      margin: 0;
+      font-family: "Comfortaa", sans-serif;
+      font-size: clamp(32px, 6vw, 58px);
+      font-weight: 700;
+      color: var(--gold-light);
+      text-shadow:
+        0 0 15px rgba(244, 207, 120, .35),
+        0 4px 20px rgba(0, 0, 0, .4);
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 15px;
+      margin-top: 14px;
+      line-height: 1.7;
+    }
+
+    .gold-line {
+      width: min(250px, 70%);
+      height: 2px;
+      margin: 22px auto;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+
+    /* ПАНЕЛИ */
+
+    .panel {
+      background: rgba(19, 35, 56, .88);
+      border: 1px solid rgba(244, 207, 120, .35);
+      border-radius: 22px;
+      padding: 25px;
+      margin: 22px 0;
+      box-shadow: 0 12px 35px rgba(0, 0, 0, .23);
+      backdrop-filter: blur(10px);
+    }
+
+    .panel h2 {
+      font-family: "Comfortaa", sans-serif;
+      color: var(--gold-light);
+      font-size: 21px;
+      margin: 0 0 18px;
+    }
+
+    /* ВХОД */
+
+    .auth-panel {
+      max-width: 470px;
+      margin: 25px auto;
+    }
+
+    .auth-description {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+
+    .field {
+      margin-bottom: 15px;
+    }
+
+    .field label {
+      display: block;
+      color: var(--gold-light);
+      font-size: 13px;
+      margin-bottom: 7px;
+    }
+
+    .field input,
+    .field textarea {
+      width: 100%;
+      color: white;
+      background: rgba(5, 14, 27, .65);
+      border: 1px solid rgba(244, 207, 120, .35);
+      border-radius: 12px;
+      padding: 13px 14px;
+      outline: none;
+      transition: .2s;
+    }
+
+    .field input:focus,
+    .field textarea:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(244, 207, 120, .12);
+    }
+
+    .field textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    /* КНОПКИ */
+
+    .btn {
+      border: 0;
+      border-radius: 12px;
+      padding: 12px 19px;
+      font-weight: 800;
+      transition: transform .2s, filter .2s;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.08);
+    }
+
+    .btn-gold {
+      color: #35240c;
+      background: linear-gradient(135deg, #fff0bd, #e9b95d);
+      box-shadow: 0 5px 15px rgba(218, 169, 78, .18);
+    }
+
+    .btn-green {
+      color: white;
+      background: linear-gradient(135deg, #32775a, #1c513c);
+    }
+
+    .btn-red {
+      color: white;
+      background: #963b48;
+    }
+
+    .btn-full {
+      width: 100%;
+    }
+
+    .btn-small {
+      font-size: 12px;
+      padding: 8px 12px;
+    }
+
+    .message {
+      min-height: 22px;
+      margin-top: 12px;
+      font-size: 13px;
+      line-height: 1.5;
+      color: var(--gold-light);
+    }
+
+    /* ПРИЛОЖЕНИЕ */
+
+    #app {
+      display: none;
+    }
+
+    .welcome-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .welcome-name {
+      color: var(--gold-light);
+      font-family: "Comfortaa", sans-serif;
+      font-size: 21px;
+    }
+
+    .family-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 18px 0 25px;
+    }
+
+    .family-tab {
+      border: 1px solid rgba(244, 207, 120, .4);
+      color: var(--cream);
+      background: rgba(9, 20, 34, .7);
+      border-radius: 30px;
+      padding: 10px 17px;
+      font-size: 13px;
+      transition: .2s;
+    }
+
+    .family-tab:hover,
+    .family-tab.active {
+      color: #2e210d;
+      background: var(--gold);
+      border-color: var(--gold);
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin: 28px 0 18px;
+    }
+
+    .section-heading h2 {
+      margin: 0;
+      font-family: "Comfortaa", sans-serif;
+      color: var(--gold-light);
+      font-size: 23px;
+    }
+
+    /* СЕТКА ПОДАРКОВ */
+
+    .gifts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(245px, 1fr));
+      gap: 25px;
+      align-items: stretch;
+    }
+
+    /* КАРТОЧКА ПОДАРКА */
+
+    .gift-card {
+      position: relative;
+      isolation: isolate;
+      min-width: 0;
+      overflow: hidden;
+      border-radius: 19px;
+      padding: 18px;
+      color: #fff9e9;
+      background:
+        linear-gradient(145deg, rgba(35, 57, 77, .98), rgba(16, 30, 48, .98));
+      box-shadow:
+        0 12px 28px rgba(0, 0, 0, .35),
+        0 0 0 1px rgba(255, 255, 255, .06);
+      transition: transform .25s, box-shadow .25s;
+    }
+
+    .gift-card:hover {
+      transform: translateY(-5px);
+      box-shadow:
+        0 17px 35px rgba(0, 0, 0, .4),
+        0 0 18px rgba(244, 207, 120, .18);
+    }
+
+    /*
+      ГЛАВНАЯ РАМКА:
+      Это отдельный слой поверх карточки.
+      Он не перехватывает нажатия и не закрывает текст.
+    */
+
+    .gift-card::before {
+      content: "";
+      position: absolute;
+      inset: 5px;
+      border: 3px solid #e8bd68;
+      border-radius: 15px;
+      pointer-events: none;
+      z-index: 10;
+      box-shadow:
+        inset 0 0 0 2px rgba(255, 247, 211, .3),
+        0 0 8px rgba(244, 207, 120, .25);
+    }
+
+    /* ВНУТРЕННЯЯ ЗОЛОТАЯ ЛИНИЯ */
+
+    .gift-card::after {
+      content: "";
+      position: absolute;
+      inset: 11px;
+      border: 1px solid rgba(255, 232, 173, .55);
+      border-radius: 11px;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .gift-content {
+      position: relative;
+      z-index: 2;
+      min-width: 0;
+    }
+
+    /* ПРАЗДНИЧНЫЕ УГОЛКИ */
+
+    .frame-corner {
+      position: absolute;
+      z-index: 11;
+      pointer-events: none;
+      color: #fff0b8;
+      font-size: 25px;
+      line-height: 1;
+      text-shadow: 0 1px 7px rgba(255, 216, 127, .65);
+    }
+
+    .corner-tl {
+      top: 7px;
+      left: 9px;
+    }
+
+    .corner-tr {
+      top: 7px;
+      right: 9px;
+    }
+
+    .corner-bl {
+      bottom: 7px;
+      left: 9px;
+    }
+
+    .corner-br {
+      bottom: 7px;
+      right: 9px;
+    }
+
+    .frame-holly {
+      position: absolute;
+      z-index: 11;
+      pointer-events: none;
+      font-size: 19px;
+      opacity: .95;
+    }
+
+    .holly-top {
+      top: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .holly-bottom {
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    /* ФОТО */
+
+    .gift-image {
+      display: block;
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      height: 175px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 16px;
+      background: #25364a;
+      border: 1px solid rgba(255, 232, 173, .3);
+    }
+
+    .gift-title {
+      color: #fff0bd;
+      font-family: "Comfortaa", sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 1.4;
+      overflow-wrap: anywhere;
+      margin: 0 0 10px;
+    }
+
+    .gift-description {
+      color: #d3dce8;
+      font-size: 13px;
+      line-height: 1.65;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      margin: 0 0 13px;
+    }
+
+    .gift-link {
+      display: inline-block;
+      color: #ffdc91;
+      font-size: 13px;
+      overflow-wrap: anywhere;
+      margin-bottom: 13px;
+    }
+
+    .gift-link:hover {
+      color: white;
+    }
+
+    .gift-owner {
+      color: #aebdce;
+      font-size: 11px;
+      margin-top: 7px;
+    }
+
+    .gift-actions {
+      margin-top: 13px;
+      display: flex;
+      justify-content: flex-end;
+      position: relative;
+      z-index: 12;
+    }
+
+    .empty-state {
+      grid-column: 1 / -1;
+      text-align: center;
+      color: var(--muted);
+      padding: 45px 15px;
+      border: 1px dashed rgba(244, 207, 120, .4);
+      border-radius: 18px;
+      line-height: 1.8;
+    }
+
+    /* ФОРМА ДОБАВЛЕНИЯ */
+
+    .add-panel {
+      margin-top: 35px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0 18px;
+    }
+
+    .form-grid .full {
+      grid-column: 1 / -1;
+    }
+
+    /* ПОДВАЛ */
+
+    footer {
+      text-align: center;
+      color: #aab8c9;
+      font-size: 12px;
+      padding: 35px 10px 10px;
+      line-height: 1.8;
+    }
+
+    .footer-decoration {
+      font-size: 25px;
+      margin-bottom: 10px;
+      letter-spacing: 8px;
+    }
+
+    /* ЗАГРУЗКА */
+
+    .loading {
+      text-align: center;
+      padding: 35px 10px;
+      color: var(--gold-light);
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* АДАПТАЦИЯ */
+
+    @media (max-width: 650px) {
+      .page {
+        width: min(100% - 20px, 500px);
+        padding-top: 20px;
+      }
+
+      .panel {
+        padding: 19px 15px;
+        border-radius: 17px;
+      }
+
+      .gifts-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      .gift-card {
+        padding: 17px;
+      }
+
+      .gift-image {
+        height: 205px;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .form-grid .full {
+        grid-column: auto;
+      }
+
+      .welcome-row {
+        align-items: flex-start;
+      }
+
+      .family-tabs {
+        gap: 7px;
+      }
+
+      .family-tab {
+        padding: 9px 13px;
+        font-size: 12px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+      }
+    }
+  </style>
 </head>
 
-<body class="login-mode">
+<body>
 
-<!-- НОЧНОЙ ГОРОД -->
-<div class="login-city">
-  <div class="city-stars"></div>
-  <div class="moon"></div>
-  <div class="skyline-back"></div>
-  <div class="building building-a"></div>
-  <div class="building building-b"></div>
-  <div class="building building-c"></div>
-  <div class="building building-d"></div>
-  <div class="building building-e"></div>
-  <div class="building building-f"></div>
-  <div class="tower"></div>
-  <div class="house house-left"></div>
-  <div class="house house-right"></div>
-  <div class="street-lamp one"></div>
-  <div class="street-lamp two"></div>
-  <div class="city-ground"></div>
-</div>
-
-<div id="snow"></div>
-
-<!-- ЭКРАН ВХОДА -->
-<section id="loginScreen" class="login-content">
-  <div class="login-card">
-    <h1>🎄 Тёплый список</h1>
-    <p>Семейный список желаний<br>Войди, чтобы посмотреть подарки</p>
-    <form id="loginForm">
-      <input id="email" type="email" placeholder="Электронная почта" required>
-      <input id="password" type="password" placeholder="Пароль" required>
-      <button class="main-button" type="submit">Войти</button>
-    </form>
-    <p id="loginMessage"></p>
-  </div>
-</section>
-
-<!-- ОСНОВНОЙ САЙТ -->
-<div id="app">
-  <header>
-    <h1>🎄 Тёплый список</h1>
-    <p>Место, где живут новогодние желания ✨</p>
-  </header>
-
-  <div class="top-bar">
-    <div class="user-label" id="currentUser">Вы вошли в семейный список</div>
-    <button class="logout-button" onclick="logout()">Выйти</button>
+  <div class="sky" aria-hidden="true">
+    <span class="star">✦</span>
+    <span class="star">✧</span>
+    <span class="star">✦</span>
+    <span class="star">✧</span>
+    <span class="star">✦</span>
+    <span class="star">✧</span>
+    <span class="star">✦</span>
+    <span class="star">✧</span>
   </div>
 
-  <main>
-    <section class="panel">
-      <span class="candy left"></span>
-      <span class="candy right"></span>
-      <h2>🎁 Семейные списки</h2>
-      <p>Выбери, чей список подарков хочешь посмотреть:</p>
-      <div class="family-buttons">
-        <button class="family-button active" onclick="selectFamily('anya')" id="family-anya">🌷 Аня</button>
-        <button class="family-button" onclick="selectFamily('arseniy')" id="family-arseniy">⭐ Арсений</button>
-        <button class="family-button" onclick="selectFamily('matvey')" id="family-matvey">❄️ Матвей</button>
-        <button class="family-button" onclick="selectFamily('vitaliy')" id="family-vitaliy">🎅 Виталий</button>
+  <div class="snow" id="snow" aria-hidden="true"></div>
+
+  <div class="city" aria-hidden="true">
+    <div class="building"></div>
+    <div class="building"></div>
+    <div class="building"></div>
+    <div class="building"></div>
+    <div class="building"></div>
+    <div class="building"></div>
+    <div class="building"></div>
+    <div class="building"></div>
+    <div class="building"></div>
+    <div class="building"></div>
+  </div>
+
+  <main class="page">
+
+    <header>
+      <div class="top-decoration">🎄 ✨ 🎁</div>
+      <h1>Тёплый список</h1>
+      <div class="subtitle">
+        Наш семейный список желаний<br>
+        Пусть каждый подарок принесёт радость!
       </div>
-    </section>
+      <div class="gold-line"></div>
+    </header>
 
-    <section class="panel" id="addGiftPanel">
-      <span class="candy left"></span>
-      <span class="candy right"></span>
-      <h2>✨ Добавить желание</h2>
-      <p>Запиши подарок, который хочется получить.</p>
-      <form id="giftForm" class="gift-form">
-        <input id="giftTitle" type="text" placeholder="Название подарка" maxlength="120" required>
-        <textarea id="giftDescription" placeholder="Описание подарка" maxlength="1000"></textarea>
-        <input id="giftUrl" type="url" placeholder="Ссылка на подарок (необязательно)">
-        <input id="giftImage" type="url" placeholder="Ссылка на картинку (необязательно)">
-        <button class="add-button" type="submit">🎁 Добавить в список</button>
+    <!-- ВХОД -->
+
+    <section id="loginScreen" class="panel auth-panel">
+      <h2>🔐 Семейный вход</h2>
+
+      <p class="auth-description">
+        Войди в свой аккаунт, чтобы увидеть желания всей семьи
+        и добавить собственные подарки.
+      </p>
+
+      <form id="loginForm">
+        <div class="field">
+          <label for="email">Электронная почта</label>
+          <input
+            id="email"
+            type="email"
+            placeholder="name@example.com"
+            autocomplete="username"
+            required
+          >
+        </div>
+
+        <div class="field">
+          <label for="password">Пароль</label>
+          <input
+            id="password"
+            type="password"
+            placeholder="Твой пароль"
+            autocomplete="current-password"
+            required
+          >
+        </div>
+
+        <button class="btn btn-gold btn-full" type="submit">
+          Войти в семейный список
+        </button>
+
+        <div id="loginMessage" class="message" role="status"></div>
       </form>
-      <div class="status-message" id="giftMessage"></div>
     </section>
 
-    <section class="panel">
-      <span class="candy left"></span>
-      <span class="candy right"></span>
-      <h2 id="listTitle">🎁 Подарки Ани</h2>
-      <div id="giftList">
-        <div class="empty-message">Загружаем подарки...</div>
+    <!-- ОСНОВНОЕ ПРИЛОЖЕНИЕ -->
+
+    <section id="app">
+
+      <div class="panel">
+        <div class="welcome-row">
+          <div>
+            <div class="welcome-name" id="welcomeName">
+              🎄 Добро пожаловать!
+            </div>
+            <div class="subtitle" style="margin-top:7px">
+              Здесь собраны желания нашей семьи
+            </div>
+          </div>
+
+          <button id="logoutButton" class="btn btn-red btn-small" type="button">
+            Выйти
+          </button>
+        </div>
       </div>
+
+      <div class="section-heading">
+        <h2>🎁 Желания семьи</h2>
+      </div>
+
+      <div class="family-tabs" id="familyTabs">
+        <button class="family-tab active" data-owner="all" type="button">
+          Вся семья
+        </button>
+        <button class="family-tab" data-owner="anya" type="button">
+          Аня
+        </button>
+        <button class="family-tab" data-owner="arseniy" type="button">
+          Арсений
+        </button>
+        <button class="family-tab" data-owner="matvey" type="button">
+          Матвей
+        </button>
+        <button class="family-tab" data-owner="vitaliy" type="button">
+          Виталий
+        </button>
+      </div>
+
+      <div id="loading" class="loading">
+        ✨ Загружаем семейные желания...
+      </div>
+
+      <div id="giftsGrid" class="gifts-grid"></div>
+
+      <!-- ДОБАВЛЕНИЕ ПОДАРКА -->
+
+      <section class="panel add-panel">
+        <h2>🎀 Добавить своё желание</h2>
+
+        <p class="auth-description">
+          Добавь подарок, который хотел бы получить.
+          Остальные члены семьи смогут увидеть его в общем списке.
+        </p>
+
+        <form id="giftForm">
+          <div class="form-grid">
+
+            <div class="field full">
+              <label for="giftTitle">Название подарка *</label>
+              <input
+                id="giftTitle"
+                type="text"
+                maxlength="120"
+                placeholder="Например: настольная игра"
+                required
+              >
+            </div>
+
+            <div class="field full">
+              <label for="giftDescription">Описание</label>
+              <textarea
+                id="giftDescription"
+                maxlength="1000"
+                placeholder="Можно написать цвет, размер, модель или другие пожелания..."
+              ></textarea>
+            </div>
+
+            <div class="field full">
+              <label for="giftUrl">Ссылка на подарок</label>
+              <input
+                id="giftUrl"
+                type="url"
+                placeholder="https://example.com"
+              >
+            </div>
+
+            <div class="field full">
+              <label for="giftImage">Ссылка на фотографию</label>
+              <input
+                id="giftImage"
+                type="url"
+                placeholder="https://example.com/photo.jpg"
+              >
+            </div>
+
+          </div>
+
+          <button class="btn btn-gold" id="addGiftButton" type="submit">
+            ✨ Добавить в список
+          </button>
+
+          <div id="giftMessage" class="message" role="status"></div>
+        </form>
+      </section>
+
     </section>
+
+    <footer>
+      <div class="footer-decoration">❄️ 🎄 ❄️</div>
+      Сделано с теплом для нашей семьи
+      <br>
+      Пусть Новый год будет волшебным! ✨
+    </footer>
+
   </main>
 
-  <div class="snowdrift left"></div>
-  <div class="snowdrift right"></div>
-</div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<script>
-/* SUPABASE */
-const SUPABASE_URL="https://coghijubvxwnsmaozlgc.supabase.co";
-const SUPABASE_KEY="sb_publishable_A8HcaBhXIOhHCmq-akDly_Amv4IF2q";
+  <script>
+    /* ==========================================
+       НАСТРОЙКИ SUPABASE
+       ========================================== */
 
-const supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+    const SUPABASE_URL =
+      "https://coghijubvxwnsmaozlgc.supabase.co";
 
-/* ЧЛЕНЫ СЕМЬИ */
-const FAMILY={
-  anya:{name:"Аня",email:"ms.kozhakina@gmail.com"},
-  arseniy:{name:"Арсений",email:"arseniy.kozhakin@gmail.com"},
-  matvey:{name:"Матвей",email:"mathew.kozhakin@gmail.com"},
-  vitaliy:{name:"Виталий",email:"vk.answer33@gmail.com"}
-};
+    const SUPABASE_KEY =
+      "sb_publishable_A8HcaBhXIOHhcMQ-akDly_Amv4IF2q";
 
-let currentSession=null;
-let currentFamily="anya";
+    const supabaseClient = window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
 
-/* СНЕГ */
-function createSnow(){
-  const snow=document.getElementById("snow");
-  snow.innerHTML="";
-  for(let i=0;i<85;i++){
-    const flake=document.createElement("div");
-    flake.className="snowflake";
-    flake.textContent="❄";
-    flake.style.left=Math.random()*100+"%";
-    flake.style.fontSize=(8+Math.random()*15)+"px";
-    flake.style.animationDuration=(7+Math.random()*13)+"s";
-    flake.style.animationDelay=(-Math.random()*20)+"s";
-    snow.appendChild(flake);
-  }
-}
-createSnow();
+    /* ==========================================
+       ЧЛЕНЫ СЕМЬИ
+       ========================================== */
 
-/* ВХОД */
-document.getElementById("loginForm").addEventListener("submit",async function(event){
-  event.preventDefault();
+    const FAMILY = {
+      "ms.kozhakina@gmail.com": {
+        slug: "anya",
+        name: "Аня"
+      },
 
-  const email=document.getElementById("email").value.trim();
-  const password=document.getElementById("password").value;
-  const message=document.getElementById("loginMessage");
+      "arseniy.kozhakin@gmail.com": {
+        slug: "arseniy",
+        name: "Арсений"
+      },
 
-  message.textContent="Выполняется вход...";
+      "mathew.kozhakin@gmail.com": {
+        slug: "matvey",
+        name: "Матвей"
+      },
 
-  const {data,error}=await supabaseClient.auth.signInWithPassword({email,password});
-
-  if(error){
-    message.textContent="Не удалось войти. Проверь почту и пароль.";
-    return;
-  }
-
-  currentSession=data.session;
-  await showApp();
-});
-
-/* ПОКАЗ САЙТА */
-async function showApp(){
-  const email=currentSession.user.email;
-
-  const familyEntry=Object.entries(FAMILY).find(
-    ([slug,person])=>person.email.toLowerCase()===email.toLowerCase()
-  );
-
-  if(!familyEntry){
-    alert("Этот аккаунт не найден в семейном списке.");
-    await supabaseClient.auth.signOut();
-    currentSession=null;
-    document.body.classList.remove("app-mode");
-    document.body.classList.add("login-mode");
-    document.getElementById("app").style.display="none";
-    document.getElementById("loginScreen").style.display="flex";
-    return;
-  }
-
-  const [slug,person]=familyEntry;
-  currentFamily=slug;
-
-  document.body.classList.remove("login-mode");
-  document.body.classList.add("app-mode");
-  document.getElementById("loginScreen").style.display="none";
-  document.getElementById("app").style.display="block";
-
-  document.getElementById("currentUser").textContent="Вы вошли как: "+person.name;
-
-  updateFamilyButtons();
-  await loadGifts();
-}
-
-/* ПРОВЕРКА СОХРАНЁННОЙ СЕССИИ */
-async function checkSession(){
-  const {data,error}=await supabaseClient.auth.getSession();
-  if(error){console.error(error);return;}
-  if(data.session){
-    currentSession=data.session;
-    await showApp();
-  }
-}
-checkSession();
-
-/* ВЫХОД */
-async function logout(){
-  await supabaseClient.auth.signOut();
-  currentSession=null;
-  document.body.classList.remove("app-mode");
-  document.body.classList.add("login-mode");
-  document.getElementById("app").style.display="none";
-  document.getElementById("loginScreen").style.display="flex";
-  document.getElementById("password").value="";
-  document.getElementById("loginMessage").textContent="";
-}
-
-/* ВЫБОР СЕМЕЙНОГО СПИСКА */
-async function selectFamily(slug){
-  if(!FAMILY[slug])return;
-  currentFamily=slug;
-  updateFamilyButtons();
-  await loadGifts();
-}
-
-function updateFamilyButtons(){
-  document.querySelectorAll(".family-button").forEach(button=>button.classList.remove("active"));
-  const activeButton=document.getElementById("family-"+currentFamily);
-  if(activeButton)activeButton.classList.add("active");
-  document.getElementById("listTitle").textContent="🎁 Подарки "+FAMILY[currentFamily].name;
-}
-
-/* ЗАГРУЗКА ПОДАРКОВ */
-async function loadGifts(){
-  const giftList=document.getElementById("giftList");
-  giftList.innerHTML='<div class="empty-message">Загружаем подарки...</div>';
-
-  const {data,error}=await supabaseClient
-    .from("gifts")
-    .select("*")
-    .eq("owner_slug",currentFamily)
-    .order("created_at",{ascending:false});
-
-  if(error){
-    giftList.innerHTML='<div class="empty-message">Не удалось загрузить список. Попробуй обновить страницу.</div>';
-    console.error(error);
-    return;
-  }
-
-  if(!data||data.length===0){
-    giftList.innerHTML='<div class="empty-message">Пока здесь нет подарков. Можно добавить первое желание! 🎄</div>';
-    return;
-  }
-
-  giftList.innerHTML="";
-  const grid=document.createElement("div");
-  grid.className="gift-list";
-
-  data.forEach(gift=>grid.appendChild(createGiftCard(gift)));
-  giftList.appendChild(grid);
-}
-
-/* СОЗДАНИЕ ПРАЗДНИЧНОЙ РАМКИ */
-function createGiftCard(gift){
-  const card=document.createElement("article");
-  card.className="gift-card";
-
-  const frame=document.createElement("div");
-  frame.className="gift-frame";
-
-  frame.innerHTML=`
-    <span class="frame-corner frame-top-left"></span>
-    <span class="frame-corner frame-top-right"></span>
-    <span class="frame-corner frame-bottom-left"></span>
-    <span class="frame-corner frame-bottom-right"></span>
-    <span class="frame-ball one"></span>
-    <span class="frame-ball two"></span>
-    <span class="frame-ball three"></span>
-    <span class="frame-ball four"></span>
-    <span class="frame-star one">★</span>
-    <span class="frame-star two">★</span>
-  `;
-  card.appendChild(frame);
-
-  if(gift.image_url){
-    const image=document.createElement("img");
-    image.src=gift.image_url;
-    image.alt=gift.title||"Подарок";
-    image.loading="lazy";
-    image.onerror=function(){image.style.display="none";};
-    card.appendChild(image);
-  }
-
-  const content=document.createElement("div");
-  content.className="gift-card-content";
-
-  const title=document.createElement("h3");
-  title.textContent="🎁 "+gift.title;
-  content.appendChild(title);
-
-  if(gift.description){
-    const description=document.createElement("p");
-    description.textContent=gift.description;
-    content.appendChild(description);
-  }
-
-  if(gift.url){
-    try{
-      const parsedUrl=new URL(gift.url);
-      if(parsedUrl.protocol==="https:"||parsedUrl.protocol==="http:"){
-        const link=document.createElement("a");
-        link.href=parsedUrl.href;
-        link.target="_blank";
-        link.rel="noopener noreferrer";
-        link.className="gift-link";
-        link.textContent="Посмотреть подарок ↗";
-        content.appendChild(link);
+      "vk.answer33@gmail.com": {
+        slug: "vitaliy",
+        name: "Виталий"
       }
-    }catch(error){
-      console.warn("Некорректная ссылка:",gift.url);
+    };
+
+    const OWNER_NAMES = {
+      anya: "Аня",
+      arseniy: "Арсений",
+      matvey: "Матвей",
+      vitaliy: "Виталий"
+    };
+
+    /* ==========================================
+       СОСТОЯНИЕ ПРИЛОЖЕНИЯ
+       ========================================== */
+
+    let currentUser = null;
+    let currentProfile = null;
+    let gifts = [];
+    let selectedOwner = "all";
+
+    const loginScreen = document.getElementById("loginScreen");
+    const app = document.getElementById("app");
+    const loginForm = document.getElementById("loginForm");
+    const loginMessage = document.getElementById("loginMessage");
+    const giftForm = document.getElementById("giftForm");
+    const giftMessage = document.getElementById("giftMessage");
+    const giftsGrid = document.getElementById("giftsGrid");
+    const loading = document.getElementById("loading");
+
+    /* ==========================================
+       СНЕГОПАД
+       ========================================== */
+
+    function createSnow() {
+      const snow = document.getElementById("snow");
+      const symbols = ["❄", "❅", "❆", "·"];
+
+      for (let i = 0; i < 38; i++) {
+        const flake = document.createElement("span");
+
+        flake.className = "snowflake";
+        flake.textContent =
+          symbols[Math.floor(Math.random() * symbols.length)];
+
+        flake.style.left = Math.random() * 100 + "%";
+        flake.style.fontSize = (8 + Math.random() * 12) + "px";
+        flake.style.opacity = (0.25 + Math.random() * 0.65).toString();
+        flake.style.animationDuration = (7 + Math.random() * 12) + "s";
+        flake.style.animationDelay = (-Math.random() * 15) + "s";
+
+        snow.appendChild(flake);
+      }
     }
-  }
 
-  const isOwner=currentSession&&gift.owner_id===currentSession.user.id;
+    createSnow();
 
-  if(isOwner){
-    const deleteButton=document.createElement("button");
-    deleteButton.className="delete-button";
-    deleteButton.textContent="Удалить";
-    deleteButton.addEventListener("click",()=>deleteGift(gift.id));
-    content.appendChild(deleteButton);
-  }
+    /* ==========================================
+       СООБЩЕНИЯ
+       ========================================== */
 
-  card.appendChild(content);
-  return card;
-}
+    function setMessage(element, text, isError = false) {
+      element.textContent = text;
+      element.style.color = isError ? "#ffaaa9" : "#fff0bd";
+    }
 
-/* ДОБАВЛЕНИЕ ПОДАРКА */
-document.getElementById("giftForm").addEventListener("submit",async function(event){
-  event.preventDefault();
+    function setLoading(value) {
+      loading.style.display = value ? "block" : "none";
+    }
 
-  const message=document.getElementById("giftMessage");
+    /* ==========================================
+       ПРОВЕРКА АККАУНТА
+       ========================================== */
 
-  if(!currentSession){
-    message.textContent="Сначала нужно войти.";
-    return;
-  }
+    function getProfile(user) {
+      if (!user || !user.email) return null;
 
-  const title=document.getElementById("giftTitle").value.trim();
-  const description=document.getElementById("giftDescription").value.trim();
-  const url=document.getElementById("giftUrl").value.trim();
-  const imageUrl=document.getElementById("giftImage").value.trim();
+      const email = user.email.toLowerCase().trim();
 
-  if(!title){
-    message.textContent="Напиши название подарка.";
-    return;
-  }
+      return FAMILY[email] || null;
+    }
 
-  if(currentSession.user.email.toLowerCase()!==FAMILY[currentFamily].email.toLowerCase()){
-    message.textContent="Добавлять подарки можно только в свой список.";
-    return;
-  }
+    async function showApp(user) {
+      const profile = getProfile(user);
 
-  message.textContent="Добавляем подарок...";
+      if (!profile) {
+        await supabaseClient.auth.signOut();
 
-  const {error}=await supabaseClient.from("gifts").insert({
-    owner_id:currentSession.user.id,
-    owner_slug:currentFamily,
-    title:title,
-    description:description,
-    url:url||null,
-    image_url:imageUrl||null
-  });
+        loginScreen.style.display = "block";
+        app.style.display = "none";
 
-  if(error){
-    console.error(error);
-    message.textContent="Не удалось добавить подарок. Попробуй ещё раз.";
-    return;
-  }
+        setMessage(
+          loginMessage,
+          "Этот аккаунт не входит в семейный список.",
+          true
+        );
 
-  document.getElementById("giftForm").reset();
-  message.textContent="Подарок добавлен! 🎄";
-  await loadGifts();
-});
+        return;
+      }
 
-/* УДАЛЕНИЕ ПОДАРКА */
-async function deleteGift(id){
-  if(!currentSession)return;
+      currentUser = user;
+      currentProfile = profile;
 
-  if(!confirm("Точно удалить этот подарок из списка?"))return;
+      loginScreen.style.display = "none";
+      app.style.display = "block";
 
-  const {error}=await supabaseClient
-    .from("gifts")
-    .delete()
-    .eq("id",id)
-    .eq("owner_id",currentSession.user.id);
+      document.getElementById("welcomeName").textContent =
+        "🎄 Привет, " + profile.name + "!";
 
-  if(error){
-    alert("Не удалось удалить подарок.");
-    console.error(error);
-    return;
-  }
+      await loadGifts();
+    }
 
-  await loadGifts();
-}
-</script>
+    /* ==========================================
+       ВХОД
+       ========================================== */
+
+    loginForm.addEventListener("submit", async function(event) {
+      event.preventDefault();
+
+      const email = document.getElementById("email").value
+        .trim()
+        .toLowerCase();
+
+      const password = document.getElementById("password").value;
+
+      setMessage(loginMessage, "Проверяем данные...");
+
+      const { data, error } =
+        await supabaseClient.auth.signInWithPassword({
+          email,
+          password
+        });
+
+      if (error) {
+        setMessage(
+          loginMessage,
+          "Не удалось войти. Проверь почту и пароль. " + error.message,
+          true
+        );
+        return;
+      }
+
+      await showApp(data.user);
+    });
+
+    /* ==========================================
+       ВЫХОД
+       ========================================== */
+
+    document.getElementById("logoutButton")
+      .addEventListener("click", async function() {
+        await supabaseClient.auth.signOut();
+
+        currentUser = null;
+        currentProfile = null;
+        gifts = [];
+
+        app.style.display = "none";
+        loginScreen.style.display = "block";
+
+        giftsGrid.innerHTML = "";
+        loginForm.reset();
+
+        setMessage(loginMessage, "Ты вышел из аккаунта.");
+      });
+
+    /* ==========================================
+       ЗАГРУЗКА ПОДАРКОВ
+       ========================================== */
+
+    async function loadGifts() {
+      setLoading(true);
+      giftsGrid.innerHTML = "";
+
+      const { data, error } = await supabaseClient
+        .from("gifts")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      setLoading(false);
+
+      if (error) {
+        giftsGrid.innerHTML = `
+          <div class="empty-state">
+            Не получилось загрузить подарки.<br>
+            Попробуй обновить страницу немного позже.
+          </div>
+        `;
+
+        console.error("Ошибка загрузки:", error);
+        return;
+      }
+
+      gifts = data || [];
+      renderGifts();
+    }
+
+    /* ==========================================
+       СОЗДАНИЕ РАМКИ КАРТОЧКИ
+       ========================================== */
+
+    function addFrameDecorations(card) {
+      const decorations = [
+        ["frame-corner corner-tl", "✦"],
+        ["frame-corner corner-tr", "✦"],
+        ["frame-corner corner-bl", "✦"],
+        ["frame-corner corner-br", "✦"],
+        ["frame-holly holly-top", "❄"],
+        ["frame-holly holly-bottom", "❄"]
+      ];
+
+      decorations.forEach(([className, symbol]) => {
+        const element = document.createElement("span");
+
+        element.className = className;
+        element.textContent = symbol;
+
+        card.appendChild(element);
+      });
+    }
+
+    /* ==========================================
+       ОТОБРАЖЕНИЕ ПОДАРКОВ
+       ========================================== */
+
+    function renderGifts() {
+      giftsGrid.innerHTML = "";
+
+      const visibleGifts = selectedOwner === "all"
+        ? gifts
+        : gifts.filter(gift => gift.owner_slug === selectedOwner);
+
+      if (visibleGifts.length === 0) {
+        const empty = document.createElement("div");
+
+        empty.className = "empty-state";
+        empty.innerHTML =
+          "🎁 Пока здесь нет подарков.<br>" +
+          "Может быть, именно ты добавишь первое желание?";
+
+        giftsGrid.appendChild(empty);
+        return;
+      }
+
+      visibleGifts.forEach(gift => {
+        const card = document.createElement("article");
+        card.className = "gift-card";
+
+        const content = document.createElement("div");
+        content.className = "gift-content";
+
+        if (gift.image_url) {
+          const image = document.createElement("img");
+
+          image.className = "gift-image";
+          image.src = gift.image_url;
+          image.alt = gift.title || "Фотография подарка";
+          image.loading = "lazy";
+
+          image.onerror = function() {
+            image.style.display = "none";
+          };
+
+          content.appendChild(image);
+        }
+
+        const title = document.createElement("h3");
+        title.className = "gift-title";
+        title.textContent = gift.title || "Подарок";
+
+        content.appendChild(title);
+
+        if (gift.description) {
+          const description = document.createElement("p");
+
+          description.className = "gift-description";
+          description.textContent = gift.description;
+
+          content.appendChild(description);
+        }
+
+        if (gift.url) {
+          const link = document.createElement("a");
+
+          link.className = "gift-link";
+          link.href = gift.url;
+          link.target = "_blank";
+          link.rel = "noopener noreferrer";
+          link.textContent = "Посмотреть подарок ↗";
+
+          content.appendChild(link);
+        }
+
+        const owner = document.createElement("div");
+        owner.className = "gift-owner";
+
+        owner.textContent =
+          "Желание: " + (OWNER_NAMES[gift.owner_slug] || "Член семьи");
+
+        content.appendChild(owner);
+
+        card.appendChild(content);
+
+        /*
+          Добавляем рамку и украшения
+          ПОСЛЕ содержимого карточки.
+          Рамка остаётся поверх карточки,
+          а кнопки и текст доступны для нажатий.
+        */
+
+        addFrameDecorations(card);
+
+        if (
+          currentUser &&
+          gift.owner_id === currentUser.id
+        ) {
+          const actions = document.createElement("div");
+          actions.className = "gift-actions";
+
+          const deleteButton = document.createElement("button");
+
+          deleteButton.className = "btn btn-red btn-small";
+          deleteButton.type = "button";
+          deleteButton.textContent = "Удалить";
+
+          deleteButton.addEventListener("click", function() {
+            deleteGift(gift.id);
+          });
+
+          actions.appendChild(deleteButton);
+          card.appendChild(actions);
+        }
+
+        giftsGrid.appendChild(card);
+      });
+    }
+
+    /* ==========================================
+       ПЕРЕКЛЮЧЕНИЕ ЧЛЕНОВ СЕМЬИ
+       ========================================== */
+
+    document.getElementById("familyTabs")
+      .addEventListener("click", function(event) {
+        const button = event.target.closest(".family-tab");
+
+        if (!button) return;
+
+        selectedOwner = button.dataset.owner;
+
+        document.querySelectorAll(".family-tab")
+          .forEach(tab => tab.classList.remove("active"));
+
+        button.classList.add("active");
+
+        renderGifts();
+      });
+
+    /* ==========================================
+       ДОБАВЛЕНИЕ ПОДАРКА
+       ========================================== */
+
+    giftForm.addEventListener("submit", async function(event) {
+      event.preventDefault();
+
+      if (!currentUser || !currentProfile) {
+        setMessage(giftMessage, "Сначала войди в аккаунт.", true);
+        return;
+      }
+
+      const title = document.getElementById("giftTitle")
+        .value.trim();
+
+      const description = document.getElementById("giftDescription")
+        .value.trim();
+
+      const url = document.getElementById("giftUrl")
+        .value.trim();
+
+      const imageUrl = document.getElementById("giftImage")
+        .value.trim();
+
+      if (!title) {
+        setMessage(giftMessage, "Напиши название подарка.", true);
+        return;
+      }
+
+      if (url && !isValidHttpUrl(url)) {
+        setMessage(giftMessage, "Проверь ссылку на подарок.", true);
+        return;
+      }
+
+      if (imageUrl && !isValidHttpUrl(imageUrl)) {
+        setMessage(giftMessage, "Проверь ссылку на фотографию.", true);
+        return;
+      }
+
+      const button = document.getElementById("addGiftButton");
+
+      button.disabled = true;
+      button.textContent = "Добавляем...";
+
+      const newGift = {
+        owner_id: currentUser.id,
+        owner_slug: currentProfile.slug,
+        title: title,
+        description: description || null,
+        url: url || null,
+        image_url: imageUrl || null
+      };
+
+      const { error } = await supabaseClient
+        .from("gifts")
+        .insert([newGift]);
+
+      button.disabled = false;
+      button.textContent = "✨ Добавить в список";
+
+      if (error) {
+        console.error("Ошибка добавления:", error);
+
+        setMessage(
+          giftMessage,
+          "Не удалось добавить подарок. " + error.message,
+          true
+        );
+
+        return;
+      }
+
+      giftForm.reset();
+
+      setMessage(giftMessage, "🎁 Подарок добавлен!");
+
+      selectedOwner = "all";
+
+      document.querySelectorAll(".family-tab")
+        .forEach(tab => {
+          tab.classList.toggle(
+            "active",
+            tab.dataset.owner === "all"
+          );
+        });
+
+      await loadGifts();
+    });
+
+    /* ==========================================
+       ПРОВЕРКА ССЫЛОК
+       ========================================== */
+
+    function isValidHttpUrl(value) {
+      try {
+        const parsed = new URL(value);
+
+        return (
+          parsed.protocol === "http:" ||
+          parsed.protocol === "https:"
+        );
+      } catch {
+        return false;
+      }
+    }
+
+    /* ==========================================
+       УДАЛЕНИЕ ПОДАРКА
+       ========================================== */
+
+    async function deleteGift(id) {
+      if (!currentUser) return;
+
+      const confirmed = confirm(
+        "Удалить этот подарок из своего списка?"
+      );
+
+      if (!confirmed) return;
+
+      const { error } = await supabaseClient
+        .from("gifts")
+        .delete()
+        .eq("id", id)
+        .eq("owner_id", currentUser.id);
+
+      if (error) {
+        alert("Не удалось удалить подарок: " + error.message);
+        console.error("Ошибка удаления:", error);
+        return;
+      }
+
+      await loadGifts();
+    }
+
+    /* ==========================================
+       ПРОВЕРКА ТЕКУЩЕЙ СЕССИИ
+       ========================================== */
+
+    async function initializeApp() {
+      const {
+        data: { session },
+        error
+      } = await supabaseClient.auth.getSession();
+
+      if (error) {
+        console.error("Ошибка проверки сессии:", error);
+      }
+
+      if (session && session.user) {
+        await showApp(session.user);
+      } else {
+        loginScreen.style.display = "block";
+        app.style.display = "none";
+      }
+    }
+
+    /* ==========================================
+       СЛУШАТЕЛЬ ИЗМЕНЕНИЙ АВТОРИЗАЦИИ
+       ========================================== */
+
+    supabaseClient.auth.onAuthStateChange(
+      async function(event, session) {
+        if (event === "SIGNED_IN" && session) {
+          await showApp(session.user);
+        }
+
+        if (event === "SIGNED_OUT") {
+          currentUser = null;
+          currentProfile = null;
+          gifts = [];
+
+          loginScreen.style.display = "block";
+          app.style.display = "none";
+
+          giftsGrid.innerHTML = "";
+        }
+      }
+    );
+
+    /* ==========================================
+       ЗАПУСК
+       ========================================== */
+
+    initializeApp();
+
+  </script>
+
 </body>
 </html>
