@@ -19,8 +19,6 @@
       --cream: #fff9e9;
       --night: #101a2c;
       --night-light: #192942;
-      --green: #245b48;
-      --red: #a83d48;
       --text: #fff9ed;
       --muted: #c8d1df;
     }
@@ -108,7 +106,7 @@
       }
     }
 
-    /* ГОРОД НА ФОНЕ */
+    /* ГОРОД */
 
     .city {
       position: fixed;
@@ -154,7 +152,7 @@
     .building:nth-child(9) { height: 70px; }
     .building:nth-child(10) { height: 105px; }
 
-    /* ОСНОВНАЯ ОБЛАСТЬ */
+    /* СТРАНИЦА */
 
     .page {
       position: relative;
@@ -282,15 +280,16 @@
       filter: brightness(1.08);
     }
 
+    .btn:disabled {
+      opacity: .6;
+      cursor: wait;
+      transform: none;
+    }
+
     .btn-gold {
       color: #35240c;
       background: linear-gradient(135deg, #fff0bd, #e9b95d);
       box-shadow: 0 5px 15px rgba(218, 169, 78, .18);
-    }
-
-    .btn-green {
-      color: white;
-      background: linear-gradient(135deg, #32775a, #1c513c);
     }
 
     .btn-red {
@@ -313,6 +312,7 @@
       font-size: 13px;
       line-height: 1.5;
       color: var(--gold-light);
+      overflow-wrap: anywhere;
     }
 
     /* ПРИЛОЖЕНИЕ */
@@ -384,7 +384,7 @@
       align-items: stretch;
     }
 
-    /* КАРТОЧКА ПОДАРКА */
+    /* КАРТОЧКА С ПРАЗДНИЧНОЙ РАМКОЙ */
 
     .gift-card {
       position: relative;
@@ -392,10 +392,13 @@
       min-width: 0;
       overflow: hidden;
       border-radius: 19px;
-      padding: 18px;
+      padding: 22px 18px;
       color: #fff9e9;
-      background:
-        linear-gradient(145deg, rgba(35, 57, 77, .98), rgba(16, 30, 48, .98));
+      background: linear-gradient(
+        145deg,
+        rgba(35, 57, 77, .98),
+        rgba(16, 30, 48, .98)
+      );
       box-shadow:
         0 12px 28px rgba(0, 0, 0, .35),
         0 0 0 1px rgba(255, 255, 255, .06);
@@ -406,14 +409,10 @@
       transform: translateY(-5px);
       box-shadow:
         0 17px 35px rgba(0, 0, 0, .4),
-        0 0 18px rgba(244, 207, 120, .18);
+        0 0 18px rgba(244, 207, 120, .25);
     }
 
-    /*
-      ГЛАВНАЯ РАМКА:
-      Это отдельный слой поверх карточки.
-      Он не перехватывает нажатия и не закрывает текст.
-    */
+    /* ЗОЛОТАЯ ВНЕШНЯЯ РАМКА */
 
     .gift-card::before {
       content: "";
@@ -428,13 +427,13 @@
         0 0 8px rgba(244, 207, 120, .25);
     }
 
-    /* ВНУТРЕННЯЯ ЗОЛОТАЯ ЛИНИЯ */
+    /* ВНУТРЕННЯЯ РАМКА */
 
     .gift-card::after {
       content: "";
       position: absolute;
       inset: 11px;
-      border: 1px solid rgba(255, 232, 173, .55);
+      border: 1px solid rgba(255, 232, 173, .65);
       border-radius: 11px;
       pointer-events: none;
       z-index: 10;
@@ -446,7 +445,7 @@
       min-width: 0;
     }
 
-    /* ПРАЗДНИЧНЫЕ УГОЛКИ */
+    /* УКРАШЕНИЯ ПО УГЛАМ */
 
     .frame-corner {
       position: absolute;
@@ -498,7 +497,7 @@
       transform: translateX(-50%);
     }
 
-    /* ФОТО */
+    /* ФОТО ПОДАРКА */
 
     .gift-image {
       display: block;
@@ -568,7 +567,7 @@
       line-height: 1.8;
     }
 
-    /* ФОРМА ДОБАВЛЕНИЯ */
+    /* ДОБАВЛЕНИЕ ПОДАРКА */
 
     .add-panel {
       margin-top: 35px;
@@ -600,19 +599,13 @@
       letter-spacing: 8px;
     }
 
-    /* ЗАГРУЗКА */
-
     .loading {
       text-align: center;
       padding: 35px 10px;
       color: var(--gold-light);
     }
 
-    .hidden {
-      display: none !important;
-    }
-
-    /* АДАПТАЦИЯ */
+    /* МОБИЛЬНАЯ ВЕРСИЯ */
 
     @media (max-width: 650px) {
       .page {
@@ -631,7 +624,7 @@
       }
 
       .gift-card {
-        padding: 17px;
+        padding: 22px 17px;
       }
 
       .gift-image {
@@ -709,7 +702,7 @@
       <div class="gold-line"></div>
     </header>
 
-    <!-- ВХОД -->
+    <!-- ЭКРАН ВХОДА -->
 
     <section id="loginScreen" class="panel auth-panel">
       <h2>🔐 Семейный вход</h2>
@@ -742,7 +735,7 @@
           >
         </div>
 
-        <button class="btn btn-gold btn-full" type="submit">
+        <button class="btn btn-gold btn-full" type="submit" id="loginButton">
           Войти в семейный список
         </button>
 
@@ -760,6 +753,7 @@
             <div class="welcome-name" id="welcomeName">
               🎄 Добро пожаловать!
             </div>
+
             <div class="subtitle" style="margin-top:7px">
               Здесь собраны желания нашей семьи
             </div>
@@ -799,7 +793,7 @@
 
       <div id="giftsGrid" class="gifts-grid"></div>
 
-      <!-- ДОБАВЛЕНИЕ ПОДАРКА -->
+      <!-- ФОРМА ДОБАВЛЕНИЯ -->
 
       <section class="panel add-panel">
         <h2>🎀 Добавить своё желание</h2>
@@ -810,6 +804,7 @@
         </p>
 
         <form id="giftForm">
+
           <div class="form-grid">
 
             <div class="field full">
@@ -828,7 +823,7 @@
               <textarea
                 id="giftDescription"
                 maxlength="1000"
-                placeholder="Можно написать цвет, размер, модель или другие пожелания..."
+                placeholder="Цвет, размер, модель или другие пожелания..."
               ></textarea>
             </div>
 
@@ -857,6 +852,7 @@
           </button>
 
           <div id="giftMessage" class="message" role="status"></div>
+
         </form>
       </section>
 
@@ -874,24 +870,24 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <script>
-    /* ==========================================
-       НАСТРОЙКИ SUPABASE
-       ========================================== */
+    /* ========================================
+       SUPABASE — ИСПРАВЛЕННЫЙ КЛЮЧ
+       ======================================== */
 
     const SUPABASE_URL =
       "https://coghijubvxwnsmaozlgc.supabase.co";
 
     const SUPABASE_KEY =
-      "sb_publishable_A8HcaBhXIOHhcMQ-akDly_Amv4IF2q";
+      "sb_publishable_A8HcaBhXIOhHCmq-akDly_Amv4IF2q";
 
     const supabaseClient = window.supabase.createClient(
       SUPABASE_URL,
       SUPABASE_KEY
     );
 
-    /* ==========================================
+    /* ========================================
        ЧЛЕНЫ СЕМЬИ
-       ========================================== */
+       ======================================== */
 
     const FAMILY = {
       "ms.kozhakina@gmail.com": {
@@ -922,9 +918,9 @@
       vitaliy: "Виталий"
     };
 
-    /* ==========================================
-       СОСТОЯНИЕ ПРИЛОЖЕНИЯ
-       ========================================== */
+    /* ========================================
+       СОСТОЯНИЕ
+       ======================================== */
 
     let currentUser = null;
     let currentProfile = null;
@@ -940,9 +936,9 @@
     const giftsGrid = document.getElementById("giftsGrid");
     const loading = document.getElementById("loading");
 
-    /* ==========================================
+    /* ========================================
        СНЕГОПАД
-       ========================================== */
+       ======================================== */
 
     function createSnow() {
       const snow = document.getElementById("snow");
@@ -967,9 +963,9 @@
 
     createSnow();
 
-    /* ==========================================
-       СООБЩЕНИЯ
-       ========================================== */
+    /* ========================================
+       СООБЩЕНИЯ И ЗАГРУЗКА
+       ======================================== */
 
     function setMessage(element, text, isError = false) {
       element.textContent = text;
@@ -980,9 +976,9 @@
       loading.style.display = value ? "block" : "none";
     }
 
-    /* ==========================================
+    /* ========================================
        ПРОВЕРКА АККАУНТА
-       ========================================== */
+       ======================================== */
 
     function getProfile(user) {
       if (!user || !user.email) return null;
@@ -1022,46 +1018,70 @@
       await loadGifts();
     }
 
-    /* ==========================================
+    /* ========================================
        ВХОД
-       ========================================== */
+       ======================================== */
 
     loginForm.addEventListener("submit", async function(event) {
       event.preventDefault();
 
-      const email = document.getElementById("email").value
-        .trim()
-        .toLowerCase();
+      const email = document.getElementById("email")
+        .value.trim().toLowerCase();
 
       const password = document.getElementById("password").value;
+      const loginButton = document.getElementById("loginButton");
 
-      setMessage(loginMessage, "Проверяем данные...");
+      loginButton.disabled = true;
+      loginButton.textContent = "Проверяем данные...";
 
-      const { data, error } =
-        await supabaseClient.auth.signInWithPassword({
-          email,
-          password
-        });
+      setMessage(loginMessage, "");
 
-      if (error) {
+      try {
+        const { data, error } =
+          await supabaseClient.auth.signInWithPassword({
+            email,
+            password
+          });
+
+        if (error) {
+          setMessage(
+            loginMessage,
+            "Не удалось войти: " + error.message,
+            true
+          );
+          return;
+        }
+
+        await showApp(data.user);
+
+      } catch (error) {
+        console.error(error);
+
         setMessage(
           loginMessage,
-          "Не удалось войти. Проверь почту и пароль. " + error.message,
+          "Ошибка соединения. Проверь интернет и попробуй ещё раз.",
           true
         );
-        return;
-      }
 
-      await showApp(data.user);
+      } finally {
+        loginButton.disabled = false;
+        loginButton.textContent = "Войти в семейный список";
+      }
     });
 
-    /* ==========================================
+    /* ========================================
        ВЫХОД
-       ========================================== */
+       ======================================== */
 
     document.getElementById("logoutButton")
       .addEventListener("click", async function() {
-        await supabaseClient.auth.signOut();
+
+        const { error } = await supabaseClient.auth.signOut();
+
+        if (error) {
+          alert("Не удалось выйти: " + error.message);
+          return;
+        }
 
         currentUser = null;
         currentProfile = null;
@@ -1076,40 +1096,45 @@
         setMessage(loginMessage, "Ты вышел из аккаунта.");
       });
 
-    /* ==========================================
+    /* ========================================
        ЗАГРУЗКА ПОДАРКОВ
-       ========================================== */
+       ======================================== */
 
     async function loadGifts() {
       setLoading(true);
       giftsGrid.innerHTML = "";
 
-      const { data, error } = await supabaseClient
-        .from("gifts")
-        .select("*")
-        .order("created_at", { ascending: false });
+      try {
+        const { data, error } = await supabaseClient
+          .from("gifts")
+          .select("*")
+          .order("created_at", { ascending: false });
 
-      setLoading(false);
+        if (error) throw error;
 
-      if (error) {
-        giftsGrid.innerHTML = `
-          <div class="empty-state">
-            Не получилось загрузить подарки.<br>
-            Попробуй обновить страницу немного позже.
-          </div>
-        `;
+        gifts = data || [];
+        renderGifts();
 
+      } catch (error) {
         console.error("Ошибка загрузки:", error);
-        return;
-      }
 
-      gifts = data || [];
-      renderGifts();
+        giftsGrid.innerHTML = "";
+
+        const empty = document.createElement("div");
+        empty.className = "empty-state";
+        empty.textContent =
+          "Не получилось загрузить подарки. Попробуй обновить страницу.";
+
+        giftsGrid.appendChild(empty);
+
+      } finally {
+        setLoading(false);
+      }
     }
 
-    /* ==========================================
-       СОЗДАНИЕ РАМКИ КАРТОЧКИ
-       ========================================== */
+    /* ========================================
+       ДЕКОРАТИВНАЯ РАМКА
+       ======================================== */
 
     function addFrameDecorations(card) {
       const decorations = [
@@ -1131,9 +1156,9 @@
       });
     }
 
-    /* ==========================================
+    /* ========================================
        ОТОБРАЖЕНИЕ ПОДАРКОВ
-       ========================================== */
+       ======================================== */
 
     function renderGifts() {
       giftsGrid.innerHTML = "";
@@ -1146,9 +1171,8 @@
         const empty = document.createElement("div");
 
         empty.className = "empty-state";
-        empty.innerHTML =
-          "🎁 Пока здесь нет подарков.<br>" +
-          "Может быть, именно ты добавишь первое желание?";
+        empty.textContent =
+          "🎁 Пока здесь нет подарков. Добавь первое желание!";
 
         giftsGrid.appendChild(empty);
         return;
@@ -1213,14 +1237,11 @@
 
         card.appendChild(content);
 
-        /*
-          Добавляем рамку и украшения
-          ПОСЛЕ содержимого карточки.
-          Рамка остаётся поверх карточки,
-          а кнопки и текст доступны для нажатий.
-        */
+        /* Добавляем рамку поверх карточки */
 
         addFrameDecorations(card);
+
+        /* Кнопка удаления только для владельца */
 
         if (
           currentUser &&
@@ -1247,12 +1268,13 @@
       });
     }
 
-    /* ==========================================
+    /* ========================================
        ПЕРЕКЛЮЧЕНИЕ ЧЛЕНОВ СЕМЬИ
-       ========================================== */
+       ======================================== */
 
     document.getElementById("familyTabs")
       .addEventListener("click", function(event) {
+
         const button = event.target.closest(".family-tab");
 
         if (!button) return;
@@ -1267,9 +1289,26 @@
         renderGifts();
       });
 
-    /* ==========================================
+    /* ========================================
+       ПРОВЕРКА ССЫЛОК
+       ======================================== */
+
+    function isValidHttpUrl(value) {
+      try {
+        const parsed = new URL(value);
+
+        return (
+          parsed.protocol === "http:" ||
+          parsed.protocol === "https:"
+        );
+      } catch {
+        return false;
+      }
+    }
+
+    /* ========================================
        ДОБАВЛЕНИЕ ПОДАРКА
-       ========================================== */
+       ======================================== */
 
     giftForm.addEventListener("submit", async function(event) {
       event.preventDefault();
@@ -1320,62 +1359,47 @@
         image_url: imageUrl || null
       };
 
-      const { error } = await supabaseClient
-        .from("gifts")
-        .insert([newGift]);
+      try {
+        const { error } = await supabaseClient
+          .from("gifts")
+          .insert([newGift]);
 
-      button.disabled = false;
-      button.textContent = "✨ Добавить в список";
+        if (error) throw error;
 
-      if (error) {
+        giftForm.reset();
+
+        setMessage(giftMessage, "🎁 Подарок добавлен!");
+
+        selectedOwner = "all";
+
+        document.querySelectorAll(".family-tab")
+          .forEach(tab => {
+            tab.classList.toggle(
+              "active",
+              tab.dataset.owner === "all"
+            );
+          });
+
+        await loadGifts();
+
+      } catch (error) {
         console.error("Ошибка добавления:", error);
 
         setMessage(
           giftMessage,
-          "Не удалось добавить подарок. " + error.message,
+          "Не удалось добавить подарок: " + error.message,
           true
         );
 
-        return;
+      } finally {
+        button.disabled = false;
+        button.textContent = "✨ Добавить в список";
       }
-
-      giftForm.reset();
-
-      setMessage(giftMessage, "🎁 Подарок добавлен!");
-
-      selectedOwner = "all";
-
-      document.querySelectorAll(".family-tab")
-        .forEach(tab => {
-          tab.classList.toggle(
-            "active",
-            tab.dataset.owner === "all"
-          );
-        });
-
-      await loadGifts();
     });
 
-    /* ==========================================
-       ПРОВЕРКА ССЫЛОК
-       ========================================== */
-
-    function isValidHttpUrl(value) {
-      try {
-        const parsed = new URL(value);
-
-        return (
-          parsed.protocol === "http:" ||
-          parsed.protocol === "https:"
-        );
-      } catch {
-        return false;
-      }
-    }
-
-    /* ==========================================
+    /* ========================================
        УДАЛЕНИЕ ПОДАРКА
-       ========================================== */
+       ======================================== */
 
     async function deleteGift(id) {
       if (!currentUser) return;
@@ -1386,69 +1410,61 @@
 
       if (!confirmed) return;
 
-      const { error } = await supabaseClient
-        .from("gifts")
-        .delete()
-        .eq("id", id)
-        .eq("owner_id", currentUser.id);
+      try {
+        const { error } = await supabaseClient
+          .from("gifts")
+          .delete()
+          .eq("id", id)
+          .eq("owner_id", currentUser.id);
 
-      if (error) {
-        alert("Не удалось удалить подарок: " + error.message);
+        if (error) throw error;
+
+        await loadGifts();
+
+      } catch (error) {
         console.error("Ошибка удаления:", error);
-        return;
-      }
 
-      await loadGifts();
+        alert("Не удалось удалить подарок: " + error.message);
+      }
     }
 
-    /* ==========================================
+    /* ========================================
        ПРОВЕРКА ТЕКУЩЕЙ СЕССИИ
-       ========================================== */
+       ======================================== */
 
     async function initializeApp() {
-      const {
-        data: { session },
-        error
-      } = await supabaseClient.auth.getSession();
+      try {
+        const {
+          data: { session },
+          error
+        } = await supabaseClient.auth.getSession();
 
-      if (error) {
+        if (error) throw error;
+
+        if (session && session.user) {
+          await showApp(session.user);
+        } else {
+          loginScreen.style.display = "block";
+          app.style.display = "none";
+        }
+
+      } catch (error) {
         console.error("Ошибка проверки сессии:", error);
-      }
 
-      if (session && session.user) {
-        await showApp(session.user);
-      } else {
         loginScreen.style.display = "block";
         app.style.display = "none";
+
+        setMessage(
+          loginMessage,
+          "Не удалось подключиться к Supabase: " + error.message,
+          true
+        );
       }
     }
 
-    /* ==========================================
-       СЛУШАТЕЛЬ ИЗМЕНЕНИЙ АВТОРИЗАЦИИ
-       ========================================== */
-
-    supabaseClient.auth.onAuthStateChange(
-      async function(event, session) {
-        if (event === "SIGNED_IN" && session) {
-          await showApp(session.user);
-        }
-
-        if (event === "SIGNED_OUT") {
-          currentUser = null;
-          currentProfile = null;
-          gifts = [];
-
-          loginScreen.style.display = "block";
-          app.style.display = "none";
-
-          giftsGrid.innerHTML = "";
-        }
-      }
-    );
-
-    /* ==========================================
+    /* ========================================
        ЗАПУСК
-       ========================================== */
+       ======================================== */
 
     initializeApp();
 
